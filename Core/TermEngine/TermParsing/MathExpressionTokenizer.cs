@@ -48,7 +48,7 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing
         /// </summary>
         static MathExpressionTokenizer()
         {
-            Default = new MathExpressionTokenizer();
+            Default = MathExpressionTokenizerFactory.Create(true, true);
         }
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing
         }
 
         /// <summary>
-        /// 
+        /// Fügt einen Postprocessing-Filter hinzu.
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="filter">Ein Filter, der das<see cref="IPostprocessTokenizerFilter"/>-Interface implementiert.</param>
         public void AddPostprocessFilter(IPostprocessTokenizerFilter filter)
         {
             _listFilters.Add(filter);
@@ -130,6 +130,11 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing
             return tokens;
         }
 
+        /// <summary>
+        /// Ruft einen Token ab, der zuvor mittels der Funktion <see cref="RegisterToken"/> registriert wurde.
+        /// </summary>
+        /// <param name="strToken">Der Inhalt des abzurufenden Tokens</param>
+        /// <returns>Ein Tpoken, der dem übergebenen Inhalt entspricht, oder null, wenn ein Token mit diesem Inhalt nicht existiert.</returns>
         internal Token GetRegisteredToken(string strToken)
         {
             if (_dictToken.ContainsKey(strToken))
