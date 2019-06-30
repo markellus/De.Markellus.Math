@@ -20,9 +20,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using De.Markellus.Maths.Core.TermEngine.TermParsing;
 
-namespace De.Markellus.Maths.Dijkstra.ShuntingYard
+namespace De.Markellus.Maths.Core.TermEngine.TermParsing
 {
     /// <summary>
     /// In dieser Klasse befinden sich Methoden, um mathematische Terme von der Infix-Notation in die umgedrehte polnische
@@ -321,6 +320,22 @@ namespace De.Markellus.Maths.Dijkstra.ShuntingYard
             if (!arrResult.SequenceEqual(arrExpected))
             {
                 throw new SystemException("ShuntingYardParser::Test 5");
+            }
+
+            // --------------------------------------------------------------
+
+            arrExpected = new Token[]
+            {
+                new Token(TokenType.Number, "5"),
+                new Token(TokenType.Number, "-5"),
+                new Token(TokenType.Operator, "+"),
+                new Token(TokenType.Number, "5"),
+                new Token(TokenType.Operator, "+"),
+            };
+            arrResult = InfixToRpn("5 +-5+ 5").ToArray();
+            if (!arrResult.SequenceEqual(arrExpected))
+            {
+                throw new SystemException("ShuntingYardParser::Test 6");
             }
         }
 
