@@ -28,13 +28,33 @@ namespace De.Markellus.Maths.Core.Arithmetic
         EXIT = -1,
 
         /// <summary>
-        /// Server empfängt Daten
-        /// </summary>
-        RECEIVE_DATA = 1,
-
-        /// <summary>
         /// Server sendet Daten
         /// </summary>
-        SEND_DATA = 2
+        RECEIVE_DATA = 100,
+
+        /// <summary>
+        /// Server sendet Daten, es folgen noch weitere Daten
+        /// </summary>
+        RECEIVE_DATA_PART = 101,
+
+        /// <summary>
+        /// Empfang der Daten vom Client bestätigt.
+        /// </summary>
+        RECEIVE_DATA_RECEIVED = 102,
+
+        /// <summary>
+        /// Server empfängt Daten
+        /// </summary>
+        SEND_DATA = 200,
+
+        /// <summary>
+        /// Server empfängt Daten, es folgen noch weitere Daten
+        /// </summary>
+        SEND_DATA_PART = 201,
+
+        /// <summary>
+        /// Empfang der Daten wurden vom Server bestätigt.
+        /// </summary>
+        SEND_DATA_RECEIVED = 202
     }
 }

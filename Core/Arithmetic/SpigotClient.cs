@@ -40,11 +40,6 @@ namespace De.Markellus.Maths.Core.Arithmetic
         private const string MMF_MUTEX = "SPGT_SM_MTX";
 
         /// <summary>
-        /// Grösse des Shared Memory
-        /// </summary>
-        private const int MMF_SIZE = 4096 + 4 + 4;
-
-        /// <summary>
         /// Grösse der Datensektion
         /// </summary>
         private const int MMF_SIZE_DATA = 4096;
@@ -55,14 +50,19 @@ namespace De.Markellus.Maths.Core.Arithmetic
         private const int MMF_OFFSET_STATUS = 0;
 
         /// <summary>
-        /// Argument-Offset
+        /// Offset an dem gespeichert ist, wie gross der Datenspeicher des Servers ist
         /// </summary>
-        private const int MMF_OFFSET_ARGSIZE = 4;
+        private const int MMF_OFFSET_DATA_MAXSIZE = 4;
+
+        /// <summary>
+        /// Grösse der Daten, die derzeit im Datenspeicher des Servers liegen
+        /// </summary>
+        private const int MMF_OFFSET_DATA_SIZE = 8;
 
         /// <summary>
         /// Daten-Offset
         /// </summary>
-        private const int MMF_OFFSET_DATA = 8;
+        private const int MMF_OFFSET_DATA = 12;
 
         /// <summary>
         /// Ort der ausführbaren Server-Datei
@@ -88,6 +88,11 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// Erlaubt Zugriff auf den SHared memory des Spigot-Servers
         /// </summary>
         private static MemoryMappedViewAccessor _accessor;
+
+        /// <summary>
+        /// Die Grösse des Server-Datenspeichers.
+        /// </summary>
+        private static int _iMaxDataSize;
 
         /// <summary>
         /// Verbindet den Client mit einem Spigot-Server oder startet einen Neuen, falls keiner vorhanden ist.
@@ -135,7 +140,13 @@ namespace De.Markellus.Maths.Core.Arithmetic
             }
 
             _mmf = MemoryMappedFile.OpenExisting(MMF_NAME);
-            _accessor = _mmf.CreateViewAccessor(0, MMF_SIZE);
+            _accessor = _mmf.CreateViewAccessor(MMF_OFFSET_DATA_MAXSIZE, sizeof(int));
+
+            _iMaxDataSize = _accessor.ReadInt32(0);
+            _accessor.Dispose();
+            _accessor = _mmf.CreateViewAccessor(0, _iMaxDataSize + sizeof(int) * 3);
+
+            _mutex.WaitOne();
         }
 
         /// <summary>
@@ -143,6 +154,8 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// </summary>
         public static void Stop()
         {
+            _mutex.ReleaseMutex();
+
 #if !DEBUG_SERVER
             //Server herunterfahren
             SendStatus(SpigotStatus.EXIT);
@@ -153,27 +166,69 @@ namespace De.Markellus.Maths.Core.Arithmetic
         }
 
         /// <summary>
-        /// Führt eine Addition aus.
+        /// Führt eine Addition durch.
         /// </summary>
         /// <param name="strRealLeft">Linker Operand</param>
         /// <param name="strRealRight">Rechter Operand</param>
         /// <returns>Ergebnis der Operation</returns>
         public static string Add(string strRealLeft, string strRealRight)
         {
-            SendData(strRealLeft + "+" + strRealRight);
-            return ReceiveData();
+            return ProcessData(strRealLeft + "+" + strRealRight);
         }
 
         /// <summary>
-        /// Führt eine Subtraktion aus.
+        /// Führt eine Subtraktion durch.
         /// </summary>
         /// <param name="strRealLeft">Linker Operand</param>
         /// <param name="strRealRight">Rechter Operand</param>
         /// <returns>Ergebnis der Operation</returns>
         public static string Subtract(string strRealLeft, string strRealRight)
         {
-            SendData(strRealLeft + "-" + strRealRight);
-            return ReceiveData();
+            return ProcessData(strRealLeft + "-" + strRealRight);
+        }
+
+        /// <summary>
+        /// Führt eine Multiplikation durch.
+        /// </summary>
+        /// <param name="strRealLeft">Linker Operand</param>
+        /// <param name="strRealRight">Rechter Operand</param>
+        /// <returns>Ergebnis der Operation</returns>
+        public static string Multiply(string strRealLeft, string strRealRight)
+        {
+            return ProcessData(strRealLeft + "*" + strRealRight);
+        }
+
+        /// <summary>
+        /// Führt eine Division durch.
+        /// </summary>
+        /// <param name="strRealLeft">Linker Operand</param>
+        /// <param name="strRealRight">Rechter Operand</param>
+        /// <returns>Ergebnis der Operation</returns>
+        public static string Divide(string strRealLeft, string strRealRight)
+        {
+            return ProcessData(strRealLeft + "/" + strRealRight);
+        }
+
+        /// <summary>
+        /// Führt eine Exponentiation durch.
+        /// </summary>
+        /// <param name="strRealLeft">Linker Operand</param>
+        /// <param name="strRealRight">Rechter Operand</param>
+        /// <returns>Ergebnis der Operation</returns>
+        public static string Pow(string strRealLeft, string strRealRight)
+        {
+            return ProcessData(strRealLeft + "^" + strRealRight);
+        }
+
+        private static string ProcessData(string strData)
+        {
+            SendStatus(SpigotStatus.SEND_DATA_RECEIVED);
+            _mutex.ReleaseMutex();
+            SendData(strData);
+            SendStatus(SpigotStatus.RECEIVE_DATA_RECEIVED);
+            string strResult = ReceiveData();
+            _mutex.WaitOne();
+            return strResult;
         }
 
         /// <summary>
@@ -182,16 +237,35 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// <param name="strData">Die zu übertragenden Daten</param>
         private static void SendData(string strData)
         {
-            //TODO checken ob client läuft
-            //TODO checken ob Puffer überläuft
-            _mutex.WaitOne();
             byte[] arrEncoded = Encoding.ASCII.GetBytes("(" + strData + ")");
-            _accessor.Write(MMF_OFFSET_STATUS, (int)SpigotStatus.SEND_DATA);
-            _accessor.Write(MMF_OFFSET_ARGSIZE, (int)1);
-            _accessor.WriteArray(MMF_OFFSET_DATA, arrEncoded, 0, arrEncoded.Length);
-            _accessor.Write(MMF_OFFSET_DATA + arrEncoded.Length, '\0');
-            _accessor.Flush();
-            _mutex.ReleaseMutex();
+            int iPos = 0;
+
+            while (iPos < arrEncoded.Length || ReceiveStatus() != SpigotStatus.SEND_DATA_RECEIVED)
+            {
+                _mutex.WaitOne();
+
+                if (ReceiveStatus() == SpigotStatus.SEND_DATA_RECEIVED)
+                {
+                    if (arrEncoded.Length - iPos > _iMaxDataSize)
+                    {
+                        SendStatus(SpigotStatus.SEND_DATA_PART);
+                        _accessor.Write(MMF_OFFSET_DATA_SIZE, _iMaxDataSize);
+                        _accessor.WriteArray(MMF_OFFSET_DATA, arrEncoded, iPos, _iMaxDataSize);
+                        _accessor.Flush();
+                        iPos += _iMaxDataSize;
+                    }
+                    else if(arrEncoded.Length - iPos > 0)
+                    {
+                        SendStatus(SpigotStatus.SEND_DATA);
+                        _accessor.Write(MMF_OFFSET_DATA_SIZE, arrEncoded.Length - iPos);
+                        _accessor.WriteArray(MMF_OFFSET_DATA, arrEncoded, iPos, arrEncoded.Length - iPos);
+                        _accessor.Flush();
+                        iPos += arrEncoded.Length - iPos;
+                    }
+                }
+
+                _mutex.ReleaseMutex();
+            }
 
 #if DEBUG
             File.AppendAllText("spigot.log","send: " + strData + "\n");
@@ -204,9 +278,7 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// <param name="status">Der zu übertragende Status.</param>
         private static void SendStatus(SpigotStatus status)
         {
-            _mutex.WaitOne();
             _accessor.Write(MMF_OFFSET_STATUS, (int)status);
-            _mutex.ReleaseMutex();
         }
 
         /// <summary>
@@ -215,21 +287,36 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// <returns>Der empfangene Daten-String</returns>
         private static string ReceiveData()
         {
-            int iCode = 0;
-            while (iCode != (int)SpigotStatus.RECEIVE_DATA)
+            bool bReceived = false;
+            StringBuilder builder = new StringBuilder();
+
+            while (!bReceived)
             {
                 _mutex.WaitOne();
-                iCode = _accessor.ReadInt32(MMF_OFFSET_STATUS);
+
+                SpigotStatus status = ReceiveStatus();
+
+                if (status == SpigotStatus.RECEIVE_DATA || status == SpigotStatus.RECEIVE_DATA_PART)
+                {
+
+                    int iSize = _accessor.ReadInt32(MMF_OFFSET_DATA_SIZE);
+                    byte[] arrResult = new byte[iSize];
+                    _accessor.ReadArray(MMF_OFFSET_DATA, arrResult, 0, iSize);
+                    string strPart = Encoding.ASCII.GetString(arrResult).Split(new char[] { '\n' })[0];
+                    builder.Append(strPart);
+                    SendStatus(SpigotStatus.RECEIVE_DATA_RECEIVED);
+                }
+
+                if (status == SpigotStatus.RECEIVE_DATA)
+                {
+                    bReceived = true;
+                }
                 _mutex.ReleaseMutex();
+
+                
             }
-            
-            byte[] arrResult = new byte[MMF_SIZE_DATA];
 
-            _mutex.WaitOne();
-            _accessor.ReadArray(MMF_OFFSET_DATA, arrResult, 0, MMF_SIZE_DATA);
-            _mutex.ReleaseMutex();
-
-            string strResult = Encoding.ASCII.GetString(arrResult).Split(new char[] { '\n' })[0];
+            string strResult = builder.ToString();
 
             if (strResult.StartsWith("ERROR"))
             {
@@ -241,6 +328,14 @@ namespace De.Markellus.Maths.Core.Arithmetic
 #endif
 
             return strResult;
+        }
+
+        /// <summary>
+        /// Liesst den Server-Status aus.
+        /// </summary>
+        private static SpigotStatus ReceiveStatus()
+        {
+            return (SpigotStatus)_accessor.ReadInt32(MMF_OFFSET_STATUS);
         }
 
         public static void Test()
