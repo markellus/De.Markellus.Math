@@ -458,6 +458,22 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing
             {
                 throw new SystemException("MathExpressionTokenizer::Test 14");
             }
+
+            // --------------------------------------------------------------
+
+            arrExpected = new Token[]
+            {
+                new Token(TokenType.Number, "5"),
+                new Token(TokenType.Operator, "+"),
+                new Token(TokenType.Number, "-5"),
+                new Token(TokenType.Operator, "+"),
+                new Token(TokenType.Number, "5"),
+            };
+            arrResult = Default.Tokenize("5 +-5+ 5", true).ToArray();
+            if (!arrResult.SequenceEqual(arrExpected))
+            {
+                throw new SystemException("MathExpressionTokenizer::Test 15");
+            }
         }
 
         #endregion

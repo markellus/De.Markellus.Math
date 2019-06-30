@@ -55,7 +55,7 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing.Filters
                     else
                     {
                         yield return t1;
-                        yield return t2;
+                        lastTokens.Enqueue(t2);
                     }
                 }
 
