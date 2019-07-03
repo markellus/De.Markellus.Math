@@ -159,10 +159,12 @@ namespace De.Markellus.Maths.Core.Arithmetic
 #if !DEBUG_SERVER
             //Server herunterfahren
             SendStatus(SpigotStatus.EXIT);
+            _procSpigot.WaitForExit();
 #endif
             //IPC-Verbindung trennen
             _accessor.Dispose();
             _mmf.Dispose();
+            _mutex.Close();
         }
 
         /// <summary>
@@ -336,46 +338,6 @@ namespace De.Markellus.Maths.Core.Arithmetic
         private static SpigotStatus ReceiveStatus()
         {
             return (SpigotStatus)_accessor.ReadInt32(MMF_OFFSET_STATUS);
-        }
-
-        public static void Test()
-        {
-            if (Add("5", "5") != "10")
-            {
-                throw new SystemException("SpigotClient::Test 1");
-            }
-
-            if (Add("50", "5") != "55")
-            {
-                throw new SystemException("SpigotClient::Test 2");
-            }
-
-            if (Add("6436743", "54336436") != "60773179")
-            {
-                throw new SystemException("SpigotClient::Test 3");
-            }
-
-            if (Add("643674578938645390345667.746534736554765436258356324563253",
-                    "436725467986784358754689354895709284309024092.3274198471090931238752896350935928703293285093258") !=
-                "436725467986784358755333029474647929699369760.0739545836638585601336459596568458703293285093258")
-            {
-                throw new SystemException("SpigotClient::Test 4");
-            }
-
-            if (Add("-5", "5") != "0")
-            {
-                throw new SystemException("SpigotClient::Test 5");
-            }
-
-            if (Add("-5.0", "5.0") != "0")
-            {
-                throw new SystemException("SpigotClient::Test 6");
-            }
-
-            if (Subtract("6", "5") != "1")
-            {
-                throw new SystemException("SpigotClient::Test 7");
-            }
         }
     }
 }
