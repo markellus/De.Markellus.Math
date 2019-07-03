@@ -11,7 +11,7 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
         {
             if (value == null)
             {
-                value = new Real();
+                value = RealFactory.GenerateReal("0.0");
             }
             Value = value;
         }
