@@ -1,23 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/* Copyright (C) Marcel Bulla - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Marcel Bulla <postmaster@marcel-bulla.de>
+ */
+
 using De.Markellus.Maths.Core.Arithmetic.RealAddons;
 
 namespace De.Markellus.Maths.Core.Arithmetic
 {
+    /// <summary>
+    /// Diese Klasse bildet eine reelle Zahl ab.
+    /// </summary>
     public class Real
     {
+        /// <summary>
+        /// Die verwendete interne Darstellungsform.
+        /// </summary>
         private IRealAddon _addon;
 
+        /// <summary>
+        /// Der Wert der reellen Zahl in formatierter Form .
+        /// </summary>
         public string Value => _addon.GetValue();
 
+        /// <summary>
+        /// Der Wert der reellen Zahl in Dezimalschreibweise. Je nach Zahl können Rundungsfehler
+        /// auftreten.
+        /// </summary>
         public string PlainValue => _addon.GetPlainValue();
 
+        /// <summary>
+        /// Erstellt eine neue Instanz einer reellen Zahl.
+        /// </summary>
+        /// <param name="addon">Die interne Darstellungsform</param>
         internal Real(IRealAddon addon)
         {
             _addon = addon;
         }
 
+        /// <summary>
+        /// Kann aufgerufen werden, um die derzeitige Darstellungsform zu überprüfen und
+        /// gegebenenfalls anzupassen.
+        /// </summary>
+        /// <param name="strCurrentInput"></param>
         internal void ReconsiderAddon(string strCurrentInput)
         {
             IRealAddon addon = RealFactory.GetMatchingAddon(strCurrentInput);
@@ -29,6 +54,11 @@ namespace De.Markellus.Maths.Core.Arithmetic
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj is Real r)
@@ -45,7 +75,7 @@ namespace De.Markellus.Maths.Core.Arithmetic
 
         protected bool Equals(Real other)
         {
-            return _addon.IsEqual(other._addon);
+            return SpigotClient.Subtract(_addon.GetPlainValue(), other._addon.GetPlainValue()) == "0";
         }
 
         public static implicit operator string(Real rhs)

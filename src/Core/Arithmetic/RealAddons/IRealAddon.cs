@@ -1,35 +1,46 @@
-﻿/* 
- * This file is part of De.Markellus.Math (https://github.com/markellus/De.Markellus.Math).
- * Copyright (c) 2019 Marcel Bulla.
- * 
- * This program is free software: you can redistribute it and/or modify  
- * it under the terms of the GNU General Public License as published by  
- * the Free Software Foundation, version 3.
- *
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License 
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+﻿/* Copyright (C) Marcel Bulla - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Marcel Bulla <postmaster@marcel-bulla.de>
  */
 
 namespace De.Markellus.Maths.Core.Arithmetic.RealAddons
 {
     /// <summary>
-    /// 
+    /// Interface zur Abbildung unterschiedlicher Typen von reellen Zahlen.
+    /// Bestimmte Arten von reellen Zahlen, wie zum Beispiel periodische Zahlen, können nicht in
+    /// dezimaler Darstellung abgebildet werden. Daher sind hierfür spezielle Implementierungen
+    /// nötig.
     /// </summary>
     internal interface IRealAddon
     {
+        /// <summary>
+        /// Legt den Wert der reellen Zahl fest.
+        /// </summary>
+        /// <param name="strInput">Die reelle Zahl als String</param>
+        /// <param name="real">Verweis auf das Objekt, welches die reelle Zahl abbildet</param>
         void SetValue(string strInput, Real real);
 
+        /// <summary>
+        /// Gibt die reelle Zahl als formatierten String zurück.
+        /// </summary>
+        /// <returns>Die reelle Zahl als formatierter String</returns>
         string GetValue();
 
+        /// <summary>
+        /// Gibt die reelle Zahl als Dezimalzahl zurück. Gegebenenfalls müssen hierbei
+        /// Ungenauigkeiten hingenommen werden.
+        /// </summary>
+        /// <returns>Die reelle Zahl als String</returns>
         string GetPlainValue();
 
-        bool IsEqual(IRealAddon other);
-
+        /// <summary>
+        /// Überprüft, ob der übergebene String als reelle Zahl über diese Implementierung
+        /// abgebildet werden kann. Das es sich um eine reele Zahl handelt ist bereits
+        /// sichergestellt.
+        /// </summary>
+        /// <param name="strInput">Der zu überprüfende String</param>
+        /// <returns>true, wenn der String mit dieser Implementierung dargestellt werden kann, ansonsten false.</returns>
         bool IsMatch(string strInput);
     }
 }

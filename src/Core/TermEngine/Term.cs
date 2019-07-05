@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright (C) Marcel Bulla - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Marcel Bulla <postmaster@marcel-bulla.de>
+ */
+
+using System;
 using System.Collections.Generic;
 using De.Markellus.Maths.Core.Arithmetic;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
