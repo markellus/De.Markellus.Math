@@ -73,9 +73,19 @@ namespace De.Markellus.Maths.Core.Arithmetic
             return false;
         }
 
+        public override string ToString()
+        {
+            return this;
+        }
+
         protected bool Equals(Real other)
         {
             return SpigotClient.Subtract(_addon.GetPlainValue(), other._addon.GetPlainValue()) == "0";
+        }
+
+        public static Real Root(Real realBase, Real realN)
+        {
+            return SpigotClient.Root(realBase.PlainValue, realN.PlainValue);
         }
 
         public static implicit operator string(Real rhs)

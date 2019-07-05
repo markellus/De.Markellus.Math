@@ -210,6 +210,11 @@ namespace De.Markellus.Maths.Core.Arithmetic
             return ProcessData(strRealLeft + "^" + strRealRight);
         }
 
+        public static string Root(string strRealLeft, string strRealRight)
+        {
+            return Pow(strRealLeft, "(1/" + strRealRight + ")");
+        }
+
         private static string ProcessData(string strData)
         {
             SendStatus(SpigotStatus.SEND_DATA_RECEIVED);

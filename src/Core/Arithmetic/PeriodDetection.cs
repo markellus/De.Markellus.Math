@@ -104,7 +104,7 @@ namespace De.Markellus.Maths.Core.Arithmetic
                 for (int start = 0; start < str.Length / 2; start++)
                 {
                     string strPeriod = DetectPeriod(str, start, end);
-                    if (strPeriod != null && strPeriod.Length > end)
+                    if (strPeriod != null && (strPeriod.Length > end || (strPeriod.Length == 1 && end == 1)))
                     {
                         return new Period {Pattern = strPeriod, Offset = start};
                     }
