@@ -75,6 +75,7 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing
                 tokenizer.AddPostprocessFilter(new AssumeMultiplyFilter());
                 tokenizer.AddPostprocessFilter(new WhitespaceFilter());
                 tokenizer.AddPostprocessFilter(new SignedNumberFilter());
+                tokenizer.AddPostprocessFilter(new FunctionArgumentFilter());
             }
 
             return tokenizer;
