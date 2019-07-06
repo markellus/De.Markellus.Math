@@ -54,6 +54,11 @@ namespace De.Markellus.Maths.Core.Arithmetic
             }
         }
 
+        public Real LeastCommonMultiple(Real other)
+        {
+            return LeastCommonMultiple(this, other);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -88,6 +93,33 @@ namespace De.Markellus.Maths.Core.Arithmetic
             return SpigotClient.Root(realBase.PlainValue, realN.PlainValue);
         }
 
+        public static Real LeastCommonMultiple(Real realLeft, Real realRight)
+        {
+            Real big;
+            if (realLeft == realRight)
+            {
+                return realRight;
+            }
+            else if (realLeft > realRight)
+            {
+                big = realLeft;
+            }
+            else
+            {
+                big = realRight;
+            }
+
+            for (Real i = big; i < realLeft * realRight; i++)
+            {
+                if (i % realLeft == 0 && i % realRight == 0)
+                {
+                    return i;
+                }
+            }
+
+            return realLeft * realRight;
+        }
+
         public static implicit operator string(Real rhs)
         {
             return rhs.Value;
@@ -96,6 +128,11 @@ namespace De.Markellus.Maths.Core.Arithmetic
         public static implicit operator Real(string rhs)
         {
             return RealFactory.GenerateReal(rhs);
+        }
+
+        public static implicit operator Real(int rhs)
+        {
+            return RealFactory.GenerateReal(rhs.ToString());
         }
 
         public static Real operator +(Real left, Real right)
@@ -121,6 +158,11 @@ namespace De.Markellus.Maths.Core.Arithmetic
         public static Real operator ^(Real left, Real right)
         {
             return RealFactory.GenerateReal(SpigotClient.Pow(left.PlainValue, right.PlainValue));
+        }
+
+        public static Real operator %(Real left, Real right)
+        {
+            return RealFactory.GenerateReal(SpigotClient.Mod(left.PlainValue, right.PlainValue));
         }
 
         public static Real operator ++(Real rhs)

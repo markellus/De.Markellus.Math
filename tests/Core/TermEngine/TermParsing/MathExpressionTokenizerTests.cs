@@ -342,5 +342,34 @@ namespace De.Markellus.Math.Tests.Core.TermEngine.TermParsing
             var arrResult = MathExpressionTokenizer.Default.Tokenize("5 +-5+ 5", true).ToArray();
             Assert.IsTrue(arrResult.SequenceEqual(arrExpected));
         }
+
+        [TestMethod]
+        public void TestTokenizer16()
+        {
+            var arrExpected = new Token[]
+            {
+                new Token(TokenType.Function, "sqrt"),
+                new Token(TokenType.Parenthesis, "("),
+                new Token(TokenType.Variable, "a"),
+                new Token(TokenType.Operator, "^"),
+                new Token(TokenType.Number, "2"),
+                new Token(TokenType.ArgumentSeparator, ","),
+                new Token(TokenType.Number, "3"),
+                new Token(TokenType.Parenthesis, ")"),
+                new Token(TokenType.Operator, "/"),
+                new Token(TokenType.Variable, "a"),
+                new Token(TokenType.Operator, "^"),
+                new Token(TokenType.Parenthesis, "("),
+                new Token(TokenType.Number, "1"),
+                new Token(TokenType.Operator, "/"),
+                new Token(TokenType.Number, "2"),
+                new Token(TokenType.Parenthesis, ")"),
+            };
+            MathExpressionTokenizer.Default.RegisterToken(TokenType.Variable, "a");
+            var arrResult = MathExpressionTokenizer.Default.Tokenize("sqrt(a^2, 3) / a^(1/2)", true).ToArray();
+            Assert.IsTrue(arrResult.SequenceEqual(arrExpected));
+            MathExpressionTokenizer.Default.UnregisterToken("a");
+
+        }
     }
 }

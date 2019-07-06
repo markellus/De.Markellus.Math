@@ -1,19 +1,19 @@
-﻿using De.Markellus.Maths.Core.Arithmetic;
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Text;
+using De.Markellus.Maths.Core.Arithmetic;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 
 namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
 {
-    public class NumberNode : NullaryTermNode
+    public class VariableNode : NullaryTermNode
     {
-        public Real Value { get; set; }
+        public string Value { get; set; }
 
-        public NumberNode(Real value = null)
+        public VariableNode(string strVar)
         {
-            if (value == null)
-            {
-                value = RealFactory.GenerateReal("0.0");
-            }
-            Value = value;
+            Value = strVar;
         }
 
         public override bool IsValid()
@@ -23,30 +23,30 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
 
         public override Real Resolve()
         {
-            return Value;
+            throw new NotImplementedException();
         }
 
         public override bool Equals(object obj)
         {
-            return obj is NumberNode node && Equals(node);
+            return obj is VariableNode node && Equals(node);
         }
 
         public override TermNode CreateCopy()
         {
-            return new NumberNode(RealFactory.GenerateReal(Value));
+            return new VariableNode(Value);
         }
 
-        protected bool Equals(NumberNode other)
+        protected bool Equals(VariableNode other)
         {
             return Equals(Value, other.Value);
         }
 
-        public static bool operator ==(NumberNode left, NumberNode right)
+        public static bool operator ==(VariableNode left, VariableNode right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(NumberNode left, NumberNode right)
+        public static bool operator !=(VariableNode left, VariableNode right)
         {
             return !Equals(left, right);
         }

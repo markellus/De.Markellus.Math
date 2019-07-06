@@ -200,5 +200,17 @@ namespace De.Markellus.Math.Tests.Core.TermEngine
         {
             Assert.AreEqual(RealFactory.GenerateReal("3"), new Term("sqrt(sqrt(81))").Resolve());
         }
+
+        [TestMethod]
+        public void TestRoot05()
+        {
+            Assert.AreEqual(RealFactory.GenerateReal("3"), new Term("sqrt(3 * 3)").Resolve());
+        }
+
+        [TestMethod]
+        public void TestRoot06()
+        {
+            Assert.AreEqual(RealFactory.GenerateReal("3"), new Term("sqrt(3 ^ 2, 1 + 1)").Resolve());
+        }
     }
 }
