@@ -85,12 +85,12 @@ namespace De.Markellus.Maths.Core.Arithmetic
 
         protected bool Equals(Real other)
         {
-            return SpigotClient.Subtract(_addon.GetPlainValue(), other._addon.GetPlainValue()) == "0";
+            return SpigotApi.Subtract(_addon.GetPlainValue(), other._addon.GetPlainValue()) == "0";
         }
 
         public static Real Root(Real realBase, Real realN)
         {
-            return SpigotClient.Root(realBase.PlainValue, realN.PlainValue);
+            return SpigotApi.Root(realBase.PlainValue, realN.PlainValue);
         }
 
         public static Real LeastCommonMultiple(Real realLeft, Real realRight)
@@ -137,52 +137,52 @@ namespace De.Markellus.Maths.Core.Arithmetic
 
         public static Real operator +(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotClient.Add(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Add(left.PlainValue, right.PlainValue));
         }
 
         public static Real operator -(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotClient.Subtract(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Subtract(left.PlainValue, right.PlainValue));
         }
 
         public static Real operator *(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotClient.Multiply(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Multiply(left.PlainValue, right.PlainValue));
         }
 
         public static Real operator /(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotClient.Divide(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Divide(left.PlainValue, right.PlainValue));
         }
 
         public static Real operator ^(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotClient.Pow(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Pow(left.PlainValue, right.PlainValue));
         }
 
         public static Real operator %(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotClient.Mod(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Mod(left.PlainValue, right.PlainValue));
         }
 
         public static Real operator ++(Real rhs)
         {
-            return RealFactory.GenerateReal(SpigotClient.Add(rhs, "1"));
+            return RealFactory.GenerateReal(SpigotApi.Add(rhs, "1"));
         }
 
         public static Real operator --(Real rhs)
         {
-            return RealFactory.GenerateReal(SpigotClient.Subtract(rhs, "1"));
+            return RealFactory.GenerateReal(SpigotApi.Subtract(rhs, "1"));
         }
 
         public static bool operator >(Real left, Real right)
         {
-            return !SpigotClient.Subtract(left.PlainValue, right.PlainValue).StartsWith("-");
+            return !SpigotApi.Subtract(left.PlainValue, right.PlainValue).StartsWith("-");
         }
 
         public static bool operator <(Real left, Real right)
         {
-            return SpigotClient.Subtract(left.PlainValue, right.PlainValue).StartsWith("-");
+            return SpigotApi.Subtract(left.PlainValue, right.PlainValue).StartsWith("-");
         }
 
         public static bool operator ==(Real left, Real right)

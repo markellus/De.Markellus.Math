@@ -7,18 +7,6 @@ namespace De.Markellus.Math.Tests.Core.TermEngine
     [TestClass]
     public class TermTests
     {
-        [TestInitialize]
-        public void Initialize()
-        {
-            SpigotClient.Start();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            SpigotClient.Stop();
-        }
-
         [TestMethod]
         public void TestAdd01()
         {

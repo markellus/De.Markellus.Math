@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using De.Markellus.Maths.Core.Arithmetic;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Implementation;
@@ -8,7 +7,7 @@ using De.Markellus.Maths.Core.TermEngine.TermParsing;
 
 namespace De.Markellus.Maths.Core.TermEngine.Nodes
 {
-    internal static class NodeFactory
+    internal static class TermNodeFactory
     {
         public static TermNode CreateNodesFromRpnToken(IEnumerable<Token> rpnToken)
         {

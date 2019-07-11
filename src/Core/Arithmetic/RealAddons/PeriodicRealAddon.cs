@@ -131,7 +131,7 @@ namespace De.Markellus.Maths.Core.Arithmetic.RealAddons
                     {
                         //Zahl ist keine Periode, es handelt sich um einen Rundungsfehler
                         // -> Rundungsfehler korrigieren
-                        strParts[0] = SpigotClient.Add(strParts[0], "1");
+                        strParts[0] = SpigotApi.Add(strParts[0], "1");
                         strParts[1] = "0";
                     }
                     else if (period.Pattern == "0")

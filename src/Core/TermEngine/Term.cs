@@ -43,7 +43,7 @@ namespace De.Markellus.Maths.Core.TermEngine
             if (_root == null)
             {
                 IEnumerable<Token> rpnToken = ShuntingYardParser.InfixToRpn(_strInfixTerm, Tokenizer);
-                _root = NodeFactory.CreateNodesFromRpnToken(rpnToken);
+                _root = TermNodeFactory.CreateNodesFromRpnToken(rpnToken);
             }
 
             return _root;

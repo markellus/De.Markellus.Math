@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using De.Markellus.Maths.Core.TermEngine.Nodes;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Implementation;
 using De.Markellus.Maths.Core.TermEngine.TermParsing;
 
-namespace De.Markellus.Maths.Core.SimplificationEngine.RootSimplificationRules
+namespace De.Markellus.Maths.Core.TermEngine.NodeTransformation.PowTransformation
 {
-    public class PowSimplify : ISimplificationRule
+    internal class PowSimplify : INodeTransformationRule
     {
         public bool CanBeAppliedTo(TermNode node, MathExpressionTokenizer tokenizer)
         {
-            return node is OperatorPowNode powNode && powNode.RightChild.Resolve() == "1";
+            return node is OperatorPowNode powNode &&
+                   powNode.RightChild.IsResolvable() &&
+                   powNode.RightChild.Resolve() == "1";
         }
 
-        public TermNode Simplify(TermNode node, MathExpressionTokenizer tokenizer)
+        public TermNode Transform(TermNode node, MathExpressionTokenizer tokenizer)
         {
             return (node as OperatorPowNode)?.LeftChild;
         }

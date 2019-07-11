@@ -16,14 +16,12 @@ namespace De.Markellus.Math.Tests.Core
         [TestInitialize]
         public void Initialize()
         {
-            SpigotClient.Start();
             _env = new MathEnvironment();
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            SpigotClient.Stop();
             _env = null;
         }
 
@@ -51,7 +49,8 @@ namespace De.Markellus.Math.Tests.Core
         [TestMethod]
         public void SimplifyTerm001()
         {
-            Assert.IsTrue(Check(
+            for(int i = 0; i < 100; i++)
+                Assert.IsTrue(Check(
                 "a^3 / a^2",
                 "a",
                 "a"));

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using De.Markellus.Maths.Core.TermEngine.Nodes;
+﻿using De.Markellus.Maths.Core.TermEngine.Nodes;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Implementation;
 using De.Markellus.Maths.Core.TermEngine.TermParsing;
 
-namespace De.Markellus.Maths.Core.SimplificationEngine.RootSimplificationRules
+namespace De.Markellus.Maths.Core.TermEngine.NodeTransformation.PowTransformation
 {
-    public class PowDivision : ISimplificationRule
+    internal class PowDivision : INodeTransformationRule
     {
         public bool CanBeAppliedTo(TermNode node, MathExpressionTokenizer tokenizer)
         {
@@ -18,19 +15,19 @@ namespace De.Markellus.Maths.Core.SimplificationEngine.RootSimplificationRules
                    powLeft.LeftChild == powRight.LeftChild;
         }
 
-        public TermNode Simplify(TermNode node, MathExpressionTokenizer tokenizer)
+        public TermNode Transform(TermNode node, MathExpressionTokenizer tokenizer)
         {
             OperatorDivideNode divNode = node as OperatorDivideNode;
             OperatorPowNode powLeft = divNode?.LeftChild as OperatorPowNode;
             OperatorPowNode powRight = divNode?.RightChild as OperatorPowNode;
 
-            TermNode subPow = NodeFactory.CreateOperatorNode(
+            TermNode subPow = TermNodeFactory.CreateOperatorNode(
                 tokenizer.GetRegisteredToken("-"),
-                NodeFactory.MakeStack(powLeft.RightChild, powRight.RightChild));
+                TermNodeFactory.MakeStack(powLeft.RightChild, powRight.RightChild));
 
-            return NodeFactory.CreateOperatorNode(
+            return TermNodeFactory.CreateOperatorNode(
                 tokenizer.GetRegisteredToken("^"),
-                NodeFactory.MakeStack(powLeft.LeftChild, subPow));
+                TermNodeFactory.MakeStack(powLeft.LeftChild, subPow));
         }
     }
 }

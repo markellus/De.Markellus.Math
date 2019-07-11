@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using De.Markellus.Maths.Core.SimplificationEngine;
+using System.Threading;
+using System.Threading.Tasks;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
+using De.Markellus.Maths.Core.TermEngine.NodeTransformation;
 using De.Markellus.Maths.Core.TermEngine.TermParsing;
 
 namespace De.Markellus.Maths.Core.TermEngine
 {
     public class NodeWorker
     {
-        private static List<ISimplificationRule> _listSimplificationRules;
+        private static List<INodeTransformationRule> _listSimplificationRules;
 
         private TermNode _node;
         private MathExpressionTokenizer _tokenizer;
 
-        private List<TermNode> _listTermVariations;
-
         static NodeWorker()
         {
-            _listSimplificationRules = new List<ISimplificationRule>();
+            _listSimplificationRules = new List<INodeTransformationRule>();
             LoadSimplificationRules();
         }
 
@@ -32,9 +33,9 @@ namespace De.Markellus.Maths.Core.TermEngine
                 {
                     foreach (Type type in assembly.GetTypes())
                     {
-                        if (type.GetInterfaces().Contains(typeof(ISimplificationRule)) && !type.IsAbstract)
+                        if (type.GetInterfaces().Contains(typeof(INodeTransformationRule)) && !type.IsAbstract)
                         {
-                            ISimplificationRule rule = (ISimplificationRule)Activator.CreateInstance(type);
+                            INodeTransformationRule rule = (INodeTransformationRule)Activator.CreateInstance(type);
                             _listSimplificationRules.Add(rule);
                         }
                     }
@@ -47,18 +48,17 @@ namespace De.Markellus.Maths.Core.TermEngine
         {
             _node = node;
             _tokenizer = tokenizer;
-            _listTermVariations = new List<TermNode>();
         }
 
         public List<TermNode> GetSimplifiedTermNodes()
         {
             List<TermNode> listVariations = GenerateVariations();
             List<TermNode> listSimplified = new List<TermNode>();
-            ulong lNodeCount = ulong.MaxValue;
+            int lNodeCount = int.MaxValue;
 
             foreach (TermNode nodeVariation in listVariations)
             {
-                ulong lChildCount = nodeVariation.GetChildCount();
+                int lChildCount = nodeVariation.GetRecursiveChildCount();
                 if (lChildCount < lNodeCount)
                 {
                     lNodeCount = lChildCount;
@@ -74,13 +74,9 @@ namespace De.Markellus.Maths.Core.TermEngine
             return listSimplified;
         }
 
-        public List<TermNode> GenerateVariations()
+        private List<TermNode> GenerateVariations()
         {
-            TermNode nodeOriginal = _node;
-
-            //Dictionary<TermNode, bool> dicVariations = new Dictionary<TermNode, bool>();
             List<TermNode> listVariations = new List<TermNode>();
-            //dicVariations.Add(_node, false);
             listVariations.Add(_node);
 
             bool bNewVariationFound = true;
@@ -89,15 +85,31 @@ namespace De.Markellus.Maths.Core.TermEngine
             {
                 bNewVariationFound = false;
 
-                List<TermNode> listVariationsNew = new List<TermNode>();
+                List<TermNode> listVariationsNew = GenerateVariationsInnerAsync(listVariations);
 
-                //foreach (KeyValuePair<TermNode, bool> nodeVariation in dicVariations.Where(kvp => kvp.Value == false))
-                foreach(TermNode node in listVariations)
+                foreach (TermNode nodeVariation in listVariationsNew)
                 {
-                    //_node = nodeVariation.Key;
-                    _node = node;
+                    if (!listVariations.Contains(nodeVariation))
+                    {
+                        listVariations.Add(nodeVariation);
+                        bNewVariationFound = true;
+                    }
+                }
+            }
 
-                    foreach (TermNode nodeNewVariation in GenerateVariationsInner())
+            return listVariations;
+        }
+
+        private List<TermNode> GenerateVariationsInnerAsync(List<TermNode> listVariations)
+        {
+            List<TermNode> listVariationsNew = new List<TermNode>();
+            object lockList = new object();
+
+            Parallel.ForEach(listVariations, node =>
+            {
+                foreach (TermNode nodeNewVariation in GenerateVariationsInner(node))
+                {
+                    lock (lockList)
                     {
                         if (!listVariationsNew.Contains(nodeNewVariation))
                         {
@@ -105,40 +117,27 @@ namespace De.Markellus.Maths.Core.TermEngine
                         }
                     }
                 }
+            });
 
-                foreach (TermNode nodeVariation in listVariationsNew)
-                {
-                    //if (!dicVariations.ContainsKey(nodeVariation))
-                    if (!listVariations.Contains(nodeVariation))
-                    {
-                        //dicVariations.Add(nodeVariation, false);
-                        listVariations.Add(nodeVariation);
-                        bNewVariationFound = true;
-                    }
-                    else
-                    {
-                        //dicVariations[nodeVariation] = true;
-                    }
-                }
-            }
-
-            _node = nodeOriginal;
-
-            //return dicVariations.Keys.ToList();
-            return listVariations;
+            return listVariationsNew;
         }
 
-        private List<TermNode> GenerateVariationsInner()
+        private List<TermNode> GenerateVariationsInner(TermNode nodeInner)
         {
             List<TermNode> listVariationsChildren = new List<TermNode>();
-            listVariationsChildren.Add(_node);
+            listVariationsChildren.Add(nodeInner);
 
-            for (int i = 0; i < _node.Count(); i++)
+            if (nodeInner.Count() == 0)
             {
-                NodeWorker worker = new NodeWorker(_node[i], _tokenizer);
-                foreach (TermNode node in worker.GenerateVariationsInner())
+                return listVariationsChildren;
+            }
+
+            for (int i = 0; i < nodeInner.Count(); i++)
+            {
+                NodeWorker worker = new NodeWorker(nodeInner[i], _tokenizer);
+                foreach (TermNode node in worker.GenerateVariations())
                 {
-                    TermNode copyC = _node.CreateCopy();
+                    TermNode copyC = nodeInner.CreateCopy();
                     copyC[i] = node;
                     if (!listVariationsChildren.Contains(copyC))
                     {
@@ -151,37 +150,22 @@ namespace De.Markellus.Maths.Core.TermEngine
 
             foreach (TermNode node in listVariationsChildren)
             {
-                foreach (ISimplificationRule rule in _listSimplificationRules)
+                foreach (INodeTransformationRule rule in _listSimplificationRules)
                 {
                     if (rule.CanBeAppliedTo(node, _tokenizer))
                     {
                         TermNode copy = node.CreateCopy();
-                        copy = rule.Simplify(copy, _tokenizer);
+                        copy = rule.Transform(copy, _tokenizer);
 
                         if (!listVariations.Contains(copy))
                         {
                             listVariations.Add(copy);
-                            //AddVariation(ref listVariations, node);
                         }
                     }
                 }
             }
 
-            List<TermNode> listVariationsFinal = listVariations;//new List<TermNode>();
-
-            //foreach (TermNode node in listVariations)
-            //{
-            //    NodeWorker worker = new NodeWorker(node, _tokenizer);
-            //    foreach (TermNode nodeFinal in worker.GenerateVariations())
-            //    {
-            //        if (!listVariationsFinal.Contains(nodeFinal))
-            //        {
-            //            listVariations.Add(nodeFinal);
-            //        }
-            //    }
-            //}
-
-            return listVariationsFinal;
+            return listVariations;
         }
 
     }

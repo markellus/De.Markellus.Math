@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using De.Markellus.Maths.Core.Arithmetic;
-using De.Markellus.Maths.Core.SimplificationEngine;
 using De.Markellus.Maths.Core.TermEngine;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Implementation;

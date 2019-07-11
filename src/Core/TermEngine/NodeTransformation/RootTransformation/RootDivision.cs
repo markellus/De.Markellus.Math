@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using De.Markellus.Maths.Core.TermEngine.Nodes;
+﻿using De.Markellus.Maths.Core.TermEngine.Nodes;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Implementation;
 using De.Markellus.Maths.Core.TermEngine.TermParsing;
 
-namespace De.Markellus.Maths.Core.SimplificationEngine.RootSimplificationRules
+namespace De.Markellus.Maths.Core.TermEngine.NodeTransformation.RootTransformation
 {
-    public class RootDivision : ISimplificationRule
+    internal class RootDivision : INodeTransformationRule
     {
         public bool CanBeAppliedTo(TermNode node, MathExpressionTokenizer tokenizer)
         {
@@ -18,7 +14,7 @@ namespace De.Markellus.Maths.Core.SimplificationEngine.RootSimplificationRules
                    divNode.RightChild is FunctionRootNode;
         }
 
-        public TermNode Simplify(TermNode node, MathExpressionTokenizer tokenizer)
+        public TermNode Transform(TermNode node, MathExpressionTokenizer tokenizer)
         {
             OperatorDivideNode divNode = node as OperatorDivideNode;
             FunctionRootNode numeratorNode = divNode?.LeftChild as FunctionRootNode;
@@ -28,22 +24,22 @@ namespace De.Markellus.Maths.Core.SimplificationEngine.RootSimplificationRules
 
             if (numeratorNode.RightChild != denumeratorNode.RightChild)
             {
-                nthNode = NodeFactory.CreateOperatorNode(
+                nthNode = TermNodeFactory.CreateOperatorNode(
                     tokenizer.GetRegisteredToken("*"),
-                    NodeFactory.MakeStack(numeratorNode?.RightChild, denumeratorNode?.RightChild));
+                    TermNodeFactory.MakeStack(numeratorNode?.RightChild, denumeratorNode?.RightChild));
             }
             else
             {
                 nthNode = numeratorNode?.RightChild;
             }
 
-            TermNode divInner = NodeFactory.CreateOperatorNode(
+            TermNode divInner = TermNodeFactory.CreateOperatorNode(
                 tokenizer.GetRegisteredToken("/"),
-                NodeFactory.MakeStack(numeratorNode.LeftChild, denumeratorNode.LeftChild));
+                TermNodeFactory.MakeStack(numeratorNode.LeftChild, denumeratorNode.LeftChild));
 
-            TermNode simplified = NodeFactory.CreateFunctionNode(
+            TermNode simplified = TermNodeFactory.CreateFunctionNode(
                 tokenizer.GetRegisteredToken("sqrt"),
-                NodeFactory.MakeStack(divInner, nthNode));
+                TermNodeFactory.MakeStack(divInner, nthNode));
 
             return simplified;
         }
