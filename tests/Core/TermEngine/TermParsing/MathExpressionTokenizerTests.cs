@@ -371,5 +371,22 @@ namespace De.Markellus.Math.Tests.Core.TermEngine.TermParsing
             MathExpressionTokenizer.Default.UnregisterToken("a");
 
         }
+
+        [TestMethod]
+        public void TestTokenizer17()
+        {
+            var arrExpected = new Token[]
+            {
+                new Token(TokenType.Parenthesis, "("),
+                new Token(TokenType.Number, "-21"),
+                new Token(TokenType.Operator, "+"),
+                new Token(TokenType.Number, "4"),
+                new Token(TokenType.Parenthesis, ")"),
+                new Token(TokenType.Operator, "+"),
+                new Token(TokenType.Number, "10"),
+            };
+            var arrResult = MathExpressionTokenizer.Default.Tokenize("(- 21 + 4) + 10", true).ToArray();
+            Assert.IsTrue(arrResult.SequenceEqual(arrExpected));
+        }
     }
 }

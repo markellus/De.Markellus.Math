@@ -43,7 +43,14 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing.Filters
                     }
                     else
                     {
-                        yield return t1;
+                        if (t1.Type == TokenType.Parenthesis && t1.Value == "(")
+                        {
+                            lastTokens.Enqueue(t1);
+                        }
+                        else
+                        {
+                            yield return t1;
+                        }
                         lastTokens.Enqueue(t2);
                     }
                 }
@@ -54,17 +61,18 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing.Filters
                     Token t2 = lastTokens.Dequeue();
                     Token t3 = lastTokens.Dequeue();
 
-                    yield return t1;
-
-                    if (t1.Type == TokenType.Operator &&
+                    if ((t1.Type == TokenType.Operator || (t1.Type == TokenType.Parenthesis && t1.Value == "(")) &&
                         (t2.Type == TokenType.Operator && (t2.Value == "-" || t2.Value == "+")) &&
                         t3.Type == TokenType.Number)
                     {
+                        yield return t1;
                         yield return new Token(TokenType.Number, (t2.Value != "+" ? t2.Value : "") + t3.Value,
                             t3.Associativity, t3.Precedence);
                     }
                     else
+
                     {
+                        yield return t1;
                         lastTokens.Enqueue(t2);
                         lastTokens.Enqueue(t3);
                     }
