@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using De.Markellus.Maths.Core.TermEngine;
 using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 using De.Markellus.Maths.Core.TermEngine.NodeTransformation;
-using De.Markellus.Maths.Core.TermEngine.NodeTransformation.RootTransformation;
 using De.Markellus.Maths.Core.TermEngine.TermParsing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,6 +24,15 @@ namespace De.Markellus.Math.Tests.Core.TermEngine.NodeTransformation
             TermNode termParsedSimplified = rule.Transform(termParsed, MathExpressionTokenizer.Default);
 
             Assert.AreEqual(termExpectedParsed, termParsedSimplified);
+
+            Assert.AreEqual(termParsed.IsResolvable(), termExpectedParsed.IsResolvable());
+            Assert.AreEqual(termParsed.IsResolvable(), termParsedSimplified.IsResolvable());
+
+            if (termParsed.IsResolvable())
+            {
+                Assert.AreEqual(termParsed.Resolve(), termExpectedParsed.Resolve());
+                Assert.AreEqual(termParsed.Resolve(), termParsedSimplified.Resolve());
+            }
         }
     }
 }
