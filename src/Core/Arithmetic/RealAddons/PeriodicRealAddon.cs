@@ -85,6 +85,29 @@ namespace De.Markellus.Maths.Core.Arithmetic.RealAddons
         }
 
         /// <summary>
+        /// Gibt einen String zurück der die Zahl repräsentiert und im Spigot-Backend verwendet werden kann.
+        /// </summary>
+        /// <returns>Die reelle Zahl in Spigot-Kompatibler Darstellung.</returns>
+        public string GetSpigotCompatibleValue()
+        {
+            //Darstellung der Periode als Bruch um die Genauigkeit zu erhöhen.
+            string[] strReal = _strValue.Split('.');
+
+            string strPeriod = strReal[1].Substring(strReal[1].Length - _iPeriodSize);
+
+            int iX = strReal[1].Length;
+            int iY = strReal[1].Length - _iPeriodSize;
+            string strXp = SpigotApi.Pow(10.ToString(), iX.ToString());
+            string strYp = SpigotApi.Pow(10.ToString(), iY.ToString());
+            string strX = SpigotApi.Multiply(_strValue, strXp) + "." + strPeriod;
+            string strY = SpigotApi.Multiply(_strValue, strYp);
+            string strN = SpigotApi.Subtract(strX, strY);
+            string strD = SpigotApi.Subtract(strXp, strYp);
+
+            return "(" + strN + "/" + strD + ")";
+        }
+
+        /// <summary>
         /// Überprüft, ob der übergebene String als reelle Zahl über diese Implementierung
         /// abgebildet werden kann. Das es sich um eine reele Zahl handelt ist bereits
         /// sichergestellt.

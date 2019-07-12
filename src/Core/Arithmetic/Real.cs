@@ -29,6 +29,8 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// </summary>
         public string PlainValue => _addon.GetPlainValue();
 
+        internal string SpigotCompatibleValue => _addon.GetSpigotCompatibleValue();
+
         /// <summary>
         /// Erstellt eine neue Instanz einer reellen Zahl.
         /// </summary>
@@ -85,12 +87,15 @@ namespace De.Markellus.Maths.Core.Arithmetic
 
         protected bool Equals(Real other)
         {
-            return SpigotApi.Subtract(_addon.GetPlainValue(), other._addon.GetPlainValue()) == "0";
+            string strSub = SpigotApi.Subtract(SpigotCompatibleValue, other.SpigotCompatibleValue);
+            return strSub == "0" || (strSub.Length > RealFactory.ROUND_PRECISION &&
+                                     strSub.TrimStart('-').Substring(0, RealFactory.ROUND_PRECISION + 2) ==
+                                     RealFactory.EQUALITY_PRECISION);
         }
 
         public static Real Root(Real realBase, Real realN)
         {
-            return SpigotApi.Root(realBase.PlainValue, realN.PlainValue);
+            return SpigotApi.Root(realBase.SpigotCompatibleValue, realN.SpigotCompatibleValue);
         }
 
         public static Real LeastCommonMultiple(Real realLeft, Real realRight)
@@ -137,32 +142,32 @@ namespace De.Markellus.Maths.Core.Arithmetic
 
         public static Real operator +(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotApi.Add(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Add(left.SpigotCompatibleValue, right.SpigotCompatibleValue));
         }
 
         public static Real operator -(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotApi.Subtract(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Subtract(left.SpigotCompatibleValue, right.SpigotCompatibleValue));
         }
 
         public static Real operator *(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotApi.Multiply(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Multiply(left.SpigotCompatibleValue, right.SpigotCompatibleValue));
         }
 
         public static Real operator /(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotApi.Divide(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Divide(left.SpigotCompatibleValue, right.SpigotCompatibleValue));
         }
 
         public static Real operator ^(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotApi.Pow(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Pow(left.SpigotCompatibleValue, right.SpigotCompatibleValue));
         }
 
         public static Real operator %(Real left, Real right)
         {
-            return RealFactory.GenerateReal(SpigotApi.Mod(left.PlainValue, right.PlainValue));
+            return RealFactory.GenerateReal(SpigotApi.Mod(left.SpigotCompatibleValue, right.SpigotCompatibleValue));
         }
 
         public static Real operator ++(Real rhs)
@@ -177,22 +182,22 @@ namespace De.Markellus.Maths.Core.Arithmetic
 
         public static bool operator >(Real left, Real right)
         {
-            return !SpigotApi.Subtract(left.PlainValue, right.PlainValue).StartsWith("-");
+            return !SpigotApi.Subtract(left.SpigotCompatibleValue, right.SpigotCompatibleValue).StartsWith("-");
         }
 
         public static bool operator <(Real left, Real right)
         {
-            return SpigotApi.Subtract(left.PlainValue, right.PlainValue).StartsWith("-");
+            return SpigotApi.Subtract(left.SpigotCompatibleValue, right.SpigotCompatibleValue).StartsWith("-");
         }
 
         public static bool operator ==(Real left, Real right)
         {
-            return Equals(left?.PlainValue, right?.PlainValue);
+            return Equals(left?.SpigotCompatibleValue, right?.SpigotCompatibleValue);
         }
 
         public static bool operator !=(Real left, Real right)
         {
-            return !Equals(left?.PlainValue, right?.PlainValue);
+            return !Equals(left?.SpigotCompatibleValue, right?.SpigotCompatibleValue);
         }
     }
 }

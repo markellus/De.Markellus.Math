@@ -22,6 +22,8 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// </summary>
         public const int ROUND_PRECISION = 500;
 
+        public static readonly string EQUALITY_PRECISION;
+
         /// <summary>
         /// Regulärer Ausdruck, der den Aufbau einer reellen Zahl als String beschreibt.
         ///
@@ -58,6 +60,8 @@ namespace De.Markellus.Maths.Core.Arithmetic
         /// </summary>
         static RealFactory()
         {
+            EQUALITY_PRECISION = "0." + new string('0', ROUND_PRECISION);
+
             _regexDecimal = new Regex("^[\\+\\-]?[0-9]+\\.[0-9]+[p]{0,1}[0-9]*$", RegexOptions.Singleline);
             _regexNumber = new Regex("^[\\+\\-]?[0-9]+$", RegexOptions.Singleline);
 

@@ -48,6 +48,15 @@ namespace De.Markellus.Maths.Core.Arithmetic.RealAddons
         }
 
         /// <summary>
+        /// Gibt einen String zurück der die Zahl repräsentiert und im Spigot-Backend verwendet werden kann.
+        /// </summary>
+        /// <returns>Die reelle Zahl in SPigot-Kompatibler Darstellung.</returns>
+        public string GetSpigotCompatibleValue()
+        {
+            return _strValue;
+        }
+
+        /// <summary>
         /// Überprüft, ob der übergebene String als reelle Zahl über diese Implementierung
         /// abgebildet werden kann. Das es sich um eine reele Zahl handelt ist bereits
         /// sichergestellt.
