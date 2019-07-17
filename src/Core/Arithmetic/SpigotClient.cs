@@ -88,7 +88,7 @@ namespace De.Markellus.Maths.Core.Arithmetic
             _procSpigot = new Process();
             //_procSpigot.StartInfo.UseShellExecute = true;
             _procSpigot.StartInfo.FileName = strServer;
-            _procSpigot.StartInfo.Arguments += strMutex + " " + strMmf;
+            _procSpigot.StartInfo.Arguments += strMutex + " " + strMmf + " " + Process.GetCurrentProcess().Id + " \"-d " + RealFactory.ROUND_PRECISION + "\"";
             _procSpigot.Start();
 
             //IPC-Verbindung herstellen

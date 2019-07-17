@@ -9,7 +9,7 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes
 {
     internal static class TermNodeFactory
     {
-        public static TermNode CreateNodesFromRpnToken(IEnumerable<Token> rpnToken)
+        public static TermNode CreateNodesFromRpnToken(IEnumerable<Token> rpnToken, MathEnvironment env)
         {
             Stack<TermNode> stack = new Stack<TermNode>();
 
@@ -37,12 +37,28 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes
                 throw new ArithmeticException("Unable to parse the given term.");
             }
 
-            return stack.Pop();
+            TermNode nodeResult = stack.Pop();
+            SetMathEnvironment(nodeResult, env);
+            return nodeResult;
+        }
+
+        private static void SetMathEnvironment(TermNode node, MathEnvironment env)
+        {
+            node.MathEnvironment = env;
+            for(int i = 0; i < node.Count(); i++)
+            {
+                SetMathEnvironment(node[i], env);
+            }
         }
 
         public static TermNode CreateNumberNode(Token token)
         {
             return new NumberNode(RealFactory.GenerateReal(token.Value));
+        }
+
+        public static TermNode CreateNumberNode(Real real)
+        {
+            return new NumberNode(real);
         }
 
         public static TermNode CreateVariableNode(Token token)
@@ -88,6 +104,18 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes
                     TermNode right = stack.Pop();
                     TermNode left = stack.Pop();
                     return new OperatorPowNode(left, right);
+                }
+                case "=":
+                {
+                    TermNode right = stack.Pop();
+                    TermNode left = stack.Pop();
+                    return new EqualityNode(left, right, false);
+                }
+                case "!=":
+                {
+                    TermNode right = stack.Pop();
+                    TermNode left = stack.Pop();
+                    return new EqualityNode(left, right, true);
                 }
                 default:
                     throw new NotImplementedException($"This operator is not implemented: {token.Value}");

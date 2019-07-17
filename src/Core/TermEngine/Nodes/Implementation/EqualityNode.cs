@@ -1,41 +1,35 @@
-﻿/* Copyright (C) Marcel Bulla - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Marcel Bulla <postmaster@marcel-bulla.de>
- */
-
-using System;
+﻿using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
 using De.Markellus.Maths.Core.Arithmetic;
-using De.Markellus.Maths.Core.TermEngine.Nodes.Base;
+using System;
 
 namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
 {
     /// <summary>
-    /// Node für eine Variable.
+    /// Node für den Gleichheits-Operator.
     /// </summary>
-    public class VariableNode : NullaryTermNode
+    public class EqualityNode : BinaryTermNode
     {
         /// <summary>
-        /// Die String-Darstellung der Variable.
+        /// true, wenn der Operator invertiert werden soll (Ungleichheit), ansonsten false.
         /// </summary>
-        public string Value { get; set; }
+        public bool Inverted { get; }
 
         /// <summary>
-        /// Erstellt eine neue Instanz mit dem angegebenen Wert.
+        /// Erstellt eine neue Instanz und initialisiert alle Kinder mit null.
         /// </summary>
-        /// <param name="strVar">Die Variable, die durch den Node repräsentiert wird.</param>
-        public VariableNode(string strVar)
+        public EqualityNode() : base()
         {
-            Value = strVar;
+            Inverted = false;
         }
 
         /// <summary>
-        /// Ruft ab, ob sich der Node zu einer reellen Zahl auflösen lässt.
+        /// Erstellt eine neue Instanz.
         /// </summary>
-        /// <returns>true wenn sich der Node zu einer reellen Zahl auflösen lässt, ansonsten false.</returns>
-        public override bool IsResolvable()
+        /// <param name="left">Das linke Kind des Nodes</param>
+        /// <param name="right">Das rechte Kind des Nodes</param>
+        public EqualityNode(TermNode left, TermNode right, bool bInverted) : base(left, right)
         {
-            return MathEnvironment?.GetVariable(Value)?.IsResolvable() == true;
+            Inverted = bInverted;
         }
 
         /// <summary>
@@ -45,7 +39,7 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
         /// Node repräsentiert wird.</returns>
         public override Real Resolve()
         {
-            return MathEnvironment.GetVariable(Value).Resolve();
+            return (Inverted ? LeftChild.Resolve() != RightChild.Resolve() : LeftChild.Resolve() == RightChild.Resolve()) ? "1" : "0";
         }
 
         /// <summary>
@@ -55,7 +49,7 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
         /// <returns>true, wenn beide Nodes identisch sind, ansonsten false.</returns>
         public override bool Equals(object obj)
         {
-            return obj is VariableNode node && Equals(node);
+            return obj is EqualityNode node && Equals(node);
         }
 
         /// <summary>
@@ -63,9 +57,9 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
         /// </summary>
         /// <param name="other">Der andere Node, mit dem verglichen werden soll</param>
         /// <returns>true, wenn beide Nodes identisch sind, ansonsten false.</returns>
-        protected bool Equals(VariableNode other)
+        protected bool Equals(OperatorAddNode other)
         {
-            return Equals(Value, other.Value);
+            return Equals(LeftChild, other.LeftChild) && Equals(RightChild, other.RightChild);
         }
 
         public override int GetHashCode()
@@ -79,7 +73,7 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
         /// <returns>Eine exakte Kopie des Nodes.</returns>
         public override TermNode CreateCopy()
         {
-            return new VariableNode(Value);
+            return new EqualityNode(LeftChild.CreateCopy(), RightChild.CreateCopy(), Inverted);
         }
 
         /// <summary>
@@ -88,7 +82,7 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(VariableNode left, VariableNode right)
+        public static bool operator ==(EqualityNode left, EqualityNode right)
         {
             return Equals(left, right);
         }
@@ -99,14 +93,14 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(VariableNode left, VariableNode right)
+        public static bool operator !=(EqualityNode left, EqualityNode right)
         {
             return !Equals(left, right);
         }
 
         public override string ToString()
         {
-            return Value;
+            return LeftChild + "=" + RightChild;
         }
     }
 }

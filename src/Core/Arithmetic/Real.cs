@@ -87,10 +87,23 @@ namespace De.Markellus.Maths.Core.Arithmetic
 
         protected bool Equals(Real other)
         {
-            string strSub = SpigotApi.Subtract(SpigotCompatibleValue, other.SpigotCompatibleValue);
-            return strSub == "0" || (strSub.Length > RealFactory.ROUND_PRECISION &&
-                                     strSub.TrimStart('-').Substring(0, RealFactory.ROUND_PRECISION + 2) ==
-                                     RealFactory.EQUALITY_PRECISION);
+            string strPlainThis = PlainValue;
+            string strPlainOther = other.PlainValue;
+
+            if (strPlainThis.Length > RealFactory.ROUND_PRECISION)
+            {
+                strPlainThis = strPlainThis.Substring(0, RealFactory.ROUND_PRECISION);
+            }
+            if (strPlainOther.Length > RealFactory.ROUND_PRECISION)
+            {
+                strPlainOther = strPlainOther.Substring(0, RealFactory.ROUND_PRECISION);
+            }
+
+            return strPlainThis == strPlainOther;
+            //string strSub = SpigotApi.Subtract(SpigotCompatibleValue, other.SpigotCompatibleValue);
+            //return strSub == "0" || (strSub.Length > RealFactory.ROUND_PRECISION &&
+            //                         strSub.TrimStart('-').Substring(0, RealFactory.ROUND_PRECISION + 2) ==
+            //RealFactory.EQUALITY_PRECISION);
         }
 
         public static Real Root(Real realBase, Real realN)

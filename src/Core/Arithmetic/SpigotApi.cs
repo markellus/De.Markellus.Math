@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading;
 
@@ -123,9 +124,11 @@ namespace De.Markellus.Maths.Core.Arithmetic
             {
                 _dicClients[client] = false;
 
-                //WORKAROUND: Memory-Leak in Spigot
-                //client.Dispose();
-                //_dicClients.Remove(client);
+                if (_dicClients.Count > 3)
+                {
+                    client.Dispose();
+                    _dicClients.Remove(client);
+                }
             }
         }
 
@@ -134,6 +137,7 @@ namespace De.Markellus.Maths.Core.Arithmetic
             SpigotClient client = LockClient();
             string strResult = client.ProcessData(strData);
             ReleaseClient(client);
+            File.AppendAllText("D:/debug-spigot.log", $"{strData} -> {strResult}\r\n");
             return strResult;
         }
 

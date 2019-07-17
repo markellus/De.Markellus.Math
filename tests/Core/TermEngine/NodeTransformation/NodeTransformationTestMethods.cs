@@ -9,30 +9,30 @@ namespace De.Markellus.Math.Tests.Core.TermEngine.NodeTransformation
 {
     internal static class NodeTransformationTestMethods
     {
-        public static void Check(string strTerm, string strTermExpected, Type targetType)
-        {
-            INodeTransformationRule rule = (INodeTransformationRule)Activator.CreateInstance(targetType);
+        //public static void Check(string strTerm, string strTermExpected, Type targetType)
+        //{
+        //    INodeTransformationRule rule = (INodeTransformationRule)Activator.CreateInstance(targetType);
 
-            Term term = new Term(strTerm);
-            Term termExpected = new Term(strTermExpected);
+        //    Term term = new Term(strTerm);
+        //    Term termExpected = new Term(strTermExpected);
 
-            TermNode termParsed = term.ParseTerm();
-            TermNode termExpectedParsed = termExpected.ParseTerm();
+        //    TermNode termParsed = term.ParseTerm();
+        //    TermNode termExpectedParsed = termExpected.ParseTerm();
 
-            Assert.IsTrue(rule.CanBeAppliedTo(termParsed, MathExpressionTokenizer.Default), "Not appliable");
+        //    Assert.IsTrue(rule.CanBeAppliedTo(termParsed, MathExpressionTokenizer.Default), "Not appliable");
 
-            TermNode termParsedSimplified = rule.Transform(termParsed, MathExpressionTokenizer.Default);
+        //    TermNode termParsedSimplified = rule.Transform(termParsed, MathExpressionTokenizer.Default);
 
-            Assert.AreEqual(termExpectedParsed, termParsedSimplified);
+        //    Assert.AreEqual(termExpectedParsed, termParsedSimplified);
 
-            Assert.AreEqual(termParsed.IsResolvable(), termExpectedParsed.IsResolvable());
-            Assert.AreEqual(termParsed.IsResolvable(), termParsedSimplified.IsResolvable());
+        //    Assert.AreEqual(termParsed.IsResolvable(), termExpectedParsed.IsResolvable());
+        //    Assert.AreEqual(termParsed.IsResolvable(), termParsedSimplified.IsResolvable());
 
-            if (termParsed.IsResolvable())
-            {
-                Assert.AreEqual(termParsed.Resolve(), termExpectedParsed.Resolve());
-                Assert.AreEqual(termParsed.Resolve(), termParsedSimplified.Resolve());
-            }
-        }
+        //    if (termParsed.IsResolvable())
+        //    {
+        //        Assert.AreEqual(termParsed.Resolve(), termExpectedParsed.Resolve());
+        //        Assert.AreEqual(termParsed.Resolve(), termParsedSimplified.Resolve());
+        //    }
+        //}
     }
 }

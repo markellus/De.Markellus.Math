@@ -17,6 +17,11 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Base
     public abstract class TermNode
     {
         /// <summary>
+        /// Die Umgebung, in der dieser Node gültig ist.
+        /// </summary>
+        public MathEnvironment MathEnvironment { get; internal set; }
+
+        /// <summary>
         /// Ruft ab, ob sich der Node zu einer reellen Zahl auflösen lässt.
         /// </summary>
         /// <returns>true wenn sich der Node zu einer reellen Zahl auflösen lässt, ansonsten false.</returns>
@@ -77,7 +82,7 @@ namespace De.Markellus.Maths.Core.TermEngine.Nodes.Base
             int iRecursiveCount = iCount;
             for (int i = 0; i < iCount; i++)
             {
-                iRecursiveCount = +this[i].GetRecursiveChildCount();
+                iRecursiveCount += this[i].GetRecursiveChildCount();
             }
 
             return iRecursiveCount;

@@ -45,6 +45,7 @@ namespace De.Markellus.Maths.Core.TermEngine.TermParsing
                 tokenizer.RegisterToken(TokenType.Operator, "/", TokenAssociativity.LeftAssociative, TokenPrecedence.Division);
                 tokenizer.RegisterToken(TokenType.Operator, "^", TokenAssociativity.RightAssociative, TokenPrecedence.Exponentiation);
                 tokenizer.RegisterToken(TokenType.Operator, "=", TokenAssociativity.NoneAssociative, TokenPrecedence.Equality);
+                tokenizer.RegisterToken(TokenType.Operator, "!=", TokenAssociativity.NoneAssociative, TokenPrecedence.Equality);
 
                 // Klammern
                 tokenizer.RegisterToken(TokenType.Parenthesis, "(");

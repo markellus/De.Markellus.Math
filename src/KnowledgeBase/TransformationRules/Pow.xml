@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<knowledgebase>
+  <meta>
+    <name>Power Rules</name>
+  </meta>
+  <rules>
+    <rule>
+      <meta>
+        <internalname>Power Rule Simplify</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <properties>
+        <twoway>false</twoway>
+      </properties>
+      <variables>
+        <variable>x</variable>
+      </variables>
+      <left>x^1</left>
+      <right>x</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Addition 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+      </variables>
+      <left>x^y + x^y</left>
+      <right>2 * x^y</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Addition 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+      </variables>
+      <left>x^y + a * x^y</left>
+      <right>(1 + a) * x^y</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Addition 3</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+      </variables>
+      <left>a * x^y + x^y</left>
+      <right>(a + 1) * x^y</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Addition 4</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+      </variables>
+      <left>(a * x^y) + (b * x^y)</left>
+      <right>(a + b) * x^y</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Subtraction 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <properties>
+        <twoway>false</twoway>
+      </properties>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+      </variables>
+      <left>x^y - x^y</left>
+      <right>0</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Subtraction 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+      </variables>
+      <left>x^y - a * x^y</left>
+      <right>(1 - a) * x^y</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Subtraction 3</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+      </variables>
+      <left>a * x^y - x^y</left>
+      <right>(a - 1) * x^y</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Subtraction 4</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+      </variables>
+      <left>(a * x^y) - (b * x^y)</left>
+      <right>(a - b) * x^y</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Multiplication 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+      </variables>
+      <left>x^a * y^a</left>
+      <right>(x * y)^a</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Multiplication 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+      </variables>
+      <left>x^a * x^b</left>
+      <right>x^(a + b)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Division 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>a</variable>
+      </variables>
+      <left>x^a / y^a</left>
+      <right>(x / y)^a</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Division 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+      </variables>
+      <left>x^a / x^b</left>
+      <right>x^(a - b)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Combine 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <properties>
+        <twoway>false</twoway>
+      </properties>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+      </variables>
+      <left>(x^a)^b</left>
+      <right>(x^b)^a</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Combine 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+      </variables>
+      <left>(x^a)^b</left>
+      <right>x^(a*b)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Power Rule Pow to Root</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>n</variable>
+        <variable>m</variable>
+      </variables>
+      <left>x^(m/n)</left>
+      <right>sqrt(x^m, n)</right>
+    </rule>
+  </rules>
+</knowledgebase>

@@ -31,6 +31,8 @@ namespace De.Markellus.Maths.Core.TermEngine.NodeTransformation.RootTransformati
             else
             {
                 nthNode = numeratorNode?.RightChild;
+
+                
             }
 
             TermNode divInner = TermNodeFactory.CreateOperatorNode(

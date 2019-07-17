@@ -12,7 +12,7 @@ namespace De.Markellus.Maths.Core
 {
     public class MathEnvironment
     {
-        private Dictionary<string, Real> _dicVariables;
+        private Dictionary<string, Term> _dicVariables;
 
         private MathExpressionTokenizer _tokenizer;
 
@@ -20,23 +20,31 @@ namespace De.Markellus.Maths.Core
 
         public MathEnvironment()
         {
-            _dicVariables = new Dictionary<string, Real>();
+            _dicVariables = new Dictionary<string, Term>();
             _tokenizer = MathExpressionTokenizerFactory.Create();
             _listTerms = new List<Term>();
-
         }
 
-        public void DefineVariable(string strVar, Real realValue = null)
+        public void DefineVariable(string strVar, Term termValue = null)
         {
             if (_dicVariables.ContainsKey(strVar))
             {
-                _dicVariables[strVar] = realValue;
+                _dicVariables[strVar] = termValue;
             }
             else
             {
-                _dicVariables.Add(strVar, realValue);
+                _dicVariables.Add(strVar, termValue);
                 _tokenizer.RegisterToken(TokenType.Variable, strVar);
             }
+        }
+
+        public Term GetVariable(string strVar)
+        {
+            if (_dicVariables.ContainsKey(strVar))
+            {
+                return _dicVariables[strVar];
+            }
+            return null;
         }
 
         public void RemoveVariable(string strVar)
@@ -50,7 +58,15 @@ namespace De.Markellus.Maths.Core
 
         public Term DefineTerm(string strInfixTerm)
         {
-            Term term = new Term(strInfixTerm, _tokenizer);
+            Term term = new Term(strInfixTerm, this, _tokenizer);
+            _listTerms.Add(term);
+
+            return term;
+        }
+
+        public Term DefineTerm(TermNode termNode)
+        {
+            Term term = new Term(termNode);
             _listTerms.Add(term);
 
             return term;
@@ -63,22 +79,38 @@ namespace De.Markellus.Maths.Core
 
         public Real ResolveVariable(string strVar)
         {
-            throw new NotImplementedException();
+            if (_dicVariables.ContainsKey(strVar))
+            {
+                Term term = _dicVariables[strVar];
+                if (term.IsResolvable())
+                {
+                    return term.Resolve();
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"The variable {strVar} is not defined.");
+            }
         }
 
         public List<Term> SimplifyTerm(Term term)
         {
-            TermNode node = term.ParseTerm();
-            NodeWorker worker = new NodeWorker(node, term.Tokenizer);
-            List<TermNode> listVariations = worker.GetSimplifiedTermNodes();
+            return term.SimplifyTerm();
+            //TermNode node = term.ParseTerm();
+            //NodeWorker_Old workerOld = new NodeWorker_Old(node, term.Tokenizer);
+            //List<TermNode> listVariations = workerOld.GetSimplifiedTermNodes();
             
-            List<Term> listResults = new List<Term>(listVariations.Count);
+            //List<Term> listResults = new List<Term>(listVariations.Count);
 
-            foreach (TermNode n in listVariations)
-            {
-                listResults.Add(new Term(n, _tokenizer));
-            }
-            return listResults;
+            //foreach (TermNode n in listVariations)
+            //{
+            //    listResults.Add(new Term(n, _tokenizer));
+            //}
+            //return listResults;
         }
 
     }

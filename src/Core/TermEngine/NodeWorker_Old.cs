@@ -12,14 +12,14 @@ using De.Markellus.Maths.Core.TermEngine.TermParsing;
 
 namespace De.Markellus.Maths.Core.TermEngine
 {
-    public class NodeWorker
+    public class NodeWorker_Old
     {
         private static List<INodeTransformationRule> _listSimplificationRules;
 
         private TermNode _node;
         private MathExpressionTokenizer _tokenizer;
 
-        static NodeWorker()
+        static NodeWorker_Old()
         {
             _listSimplificationRules = new List<INodeTransformationRule>();
             LoadSimplificationRules();
@@ -44,7 +44,7 @@ namespace De.Markellus.Maths.Core.TermEngine
             }
         }
 
-        public NodeWorker(TermNode node, MathExpressionTokenizer tokenizer)
+        public NodeWorker_Old(TermNode node, MathExpressionTokenizer tokenizer)
         {
             _node = node;
             _tokenizer = tokenizer;
@@ -134,8 +134,8 @@ namespace De.Markellus.Maths.Core.TermEngine
 
             for (int i = 0; i < nodeInner.Count(); i++)
             {
-                NodeWorker worker = new NodeWorker(nodeInner[i], _tokenizer);
-                foreach (TermNode node in worker.GenerateVariations())
+                NodeWorker_Old workerOld = new NodeWorker_Old(nodeInner[i], _tokenizer);
+                foreach (TermNode node in workerOld.GenerateVariations())
                 {
                     TermNode copyC = nodeInner.CreateCopy();
                     copyC[i] = node;

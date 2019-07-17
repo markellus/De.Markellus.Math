@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<knowledgebase>
+  <meta>
+    <name>Resolve Equations</name>
+  </meta>
+  <rules>
+    <rule>
+      <meta>
+        <internalname>Resolve</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <properties>
+        <twoway>false</twoway>
+      </properties>
+      <variables>
+        <variable>x</variable>
+      </variables>
+      <resolve>
+        <variable>x</variable>
+      </resolve>
+      <left>x</left>
+      <right>x</right>
+    </rule>
+  </rules>
+</knowledgebase>
