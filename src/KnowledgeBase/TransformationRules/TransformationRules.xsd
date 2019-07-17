@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://markellus.de/de.markellus.math" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="knowledgebase">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="meta">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string"></xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="rules">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="rule" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="meta">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="internalname" type="xs:string"></xs:element>
+                          <xs:element name="name"></xs:element>
+                          <xs:element name="description"></xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="properties">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="twoway" type="xs:string"></xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="variables">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="variable" type="xs:string"></xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="restrictions">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="restriction" type="xs:string"></xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="left" type="xs:string"></xs:element>
+                    <xs:element name="right" type="xs:string"></xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

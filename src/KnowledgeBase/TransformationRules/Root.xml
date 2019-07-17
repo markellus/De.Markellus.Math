@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<knowledgebase>
+  <meta>
+    <name>Root Rules</name>
+  </meta>
+  <rules>
+    <rule>
+      <meta>
+        <internalname>Root Rule Addition 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>n</variable>
+      </variables>
+      <left>sqrt(x, n) + sqrt(x, n)</left>
+      <right>2 * sqrt(x, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Addition 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>n</variable>
+      </variables>
+      <left>a * sqrt(x, n) + sqrt(x, n)</left>
+      <right>(a + 1) * sqrt(x, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Addition 3</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>b</variable>
+        <variable>n</variable>
+      </variables>
+      <left>sqrt(x, n) + b * sqrt(x, n)</left>
+      <right>(1 + b) * sqrt(x, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Addition 4</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+        <variable>n</variable>
+      </variables>
+      <left>a * sqrt(x, n) + b * sqrt(x, n)</left>
+      <right>(a + b) * sqrt(x, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Subtraction 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <properties>
+        <twoway>false</twoway>
+      </properties>
+      <variables>
+        <variable>x</variable>
+        <variable>n</variable>
+      </variables>
+      <left>sqrt(x, n) - sqrt(x, n)</left>
+      <right>0</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Subtraction 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>n</variable>
+      </variables>
+      <left>a * sqrt(x, n) - sqrt(x, n)</left>
+      <right>(a - 1) * sqrt(x, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Subtraction 3</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>b</variable>
+        <variable>n</variable>
+      </variables>
+      <left>sqrt(x, n) - b * sqrt(x, n)</left>
+      <right>(1 - b) * sqrt(x, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Subtraction 4</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>a</variable>
+        <variable>b</variable>
+        <variable>n</variable>
+      </variables>
+      <left>a * sqrt(x, n) - b * sqrt(x, n)</left>
+      <right>(a - b) * sqrt(x, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Multiplication 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>n</variable>
+      </variables>
+      <left>sqrt(x, n) * sqrt(y, n)</left>
+      <right>sqrt(x * y, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Multiplication 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>n</variable>
+        <variable>m</variable>
+      </variables>
+      <restrictions>
+        <restriction>n != m</restriction>
+      </restrictions>
+      <left>sqrt(x, n) * sqrt(y, m)</left>
+      <right>sqrt(x^m * y^n, n * m)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Division1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>n</variable>
+      </variables>
+      <left>sqrt(x, n) / sqrt(y, n)</left>
+      <right>sqrt(x / y, n)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Root Rule Division 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>n</variable>
+        <variable>m</variable>
+      </variables>
+      <restrictions>
+        <restriction>n != m</restriction>
+      </restrictions>
+      <left>sqrt(x, n) / sqrt(y, m)</left>
+      <right>sqrt(x^m / y^n, n * m)</right>
+    </rule>
+  </rules>
+</knowledgebase>
