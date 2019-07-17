@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<knowledgebase>
+  <meta>
+    <name>Parenthesis Rules</name>
+  </meta>
+  <rules>
+    <rule>
+      <meta>
+        <internalname>Parenthesis Rule Add / Subtract 1</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>z</variable>
+      </variables>
+      <left>(x + y) + z</left>
+      <right>x + (y + z)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Parenthesis Rule Add / Subtract 2</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>z</variable>
+      </variables>
+      <left>(x - y) + z</left>
+      <right>x - (y - z)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Parenthesis Rule Add / Subtract 3</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>z</variable>
+      </variables>
+      <left>x + (y - z)</left>
+      <right>(x + y) - z</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Parenthesis Rule Add / Subtract 4</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>z</variable>
+      </variables>
+      <left>(x - y) - z</left>
+      <right>x - (y + z)</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Parenthesis Rule Multiplication</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>z</variable>
+      </variables>
+      <left>x * (y * z)</left>
+      <right>(x * y) * z</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Parenthesis Rule Division</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+        <variable>z</variable>
+      </variables>
+      <left>(x / y) / z</left>
+      <right>x / (y * z)</right>
+    </rule>
+  </rules>
+</knowledgebase>

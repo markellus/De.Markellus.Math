@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<knowledgebase>
+  <meta>
+    <name>Basics</name>
+  </meta>
+  <rules>
+    <rule>
+      <meta>
+        <internalname>Basic Rule Swap Addition</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <properties>
+        <twoway>false</twoway>
+      </properties>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+      </variables>
+      <left>x + y</left>
+      <right>y + x</right>
+    </rule>
+    <rule>
+      <meta>
+        <internalname>Basic Rule Swap Multiply</internalname>
+        <name></name>
+        <description></description>
+      </meta>
+      <properties>
+        <twoway>false</twoway>
+      </properties>
+      <variables>
+        <variable>x</variable>
+        <variable>y</variable>
+      </variables>
+      <left>x * y</left>
+      <right>y * x</right>
+    </rule>
+  </rules>
+</knowledgebase>
