@@ -15,7 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System.Runtime.CompilerServices;
+namespace De.Markellus.Maths.Internals.TermParsing
+{
+    /// <summary>
+    /// Beschreibt die Assoziativität eines Tokens.
+    /// </summary>
+    public enum TokenAssociativity
+    {
+        /// <summary>
+        /// Der Token folgt dem Assoziativgesetz oder diese Eigenschaft
+        /// ist für diesen Typ nicht definiert.
+        /// </summary>
+        NoneAssociative,
 
-// Macht die internen Klassen zugreifbar für Unit-Tests
-[assembly: InternalsVisibleTo("De.Markellus.Math.Tests")]
+        /// <summary>
+        /// Der Token ist links-assoziativ.
+        /// </summary>
+        LeftAssociative,
+
+        /// <summary>
+        /// Der Token ist rechts-assoziativ.
+        /// </summary>
+        RightAssociative,
+    }
+}
