@@ -39,22 +39,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="KnowledgeBase\TransformationRules\Pow.xml">
+    <None Update="KnowledgeBase\Algebra\Functions\Functions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="KnowledgeBase\TransformationRules\Basics.xml">
+    <None Update="KnowledgeBase\Algebra\Token\Token.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="KnowledgeBase\TransformationRules\Root.xml">
+    <None Update="KnowledgeBase\Algebra\TransformationRules\Pow.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="KnowledgeBase\TransformationRules\Resolver.xml">
+    <None Update="KnowledgeBase\Algebra\TransformationRules\Basics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="KnowledgeBase\TransformationRules\Parenthesis.xml">
+    <None Update="KnowledgeBase\Algebra\TransformationRules\Root.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="KnowledgeBase\TransformationRules\TransformationRules.xsd">
+    <None Update="KnowledgeBase\Algebra\TransformationRules\Resolver.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="KnowledgeBase\Algebra\TransformationRules\Parenthesis.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="KnowledgeBase\Algebra\TransformationRules\TransformationRules.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

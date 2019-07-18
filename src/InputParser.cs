@@ -6,6 +6,9 @@
 
 using System;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using De.Markellus.Maths.Internals.TermParsing;
 
 namespace De.Markellus.Maths
 {
@@ -45,6 +48,28 @@ namespace De.Markellus.Maths
         public static double[] ParseDoubleList(string strValues, char cDivider)
         {
             return ParseDoubleList(strValues.Split(new char[] { cDivider }, StringSplitOptions.RemoveEmptyEntries));
+        }
+
+        /// <summary>
+        /// Parst einen mathematischen Term und gibt diesen aufgeteilt in einzelne Bauteile zurück.
+        /// </summary>
+        /// <param name="strTerm">Der mathematische Term als String, z.B. "5 + 5 - sqrt(9)"</param>
+        /// <param name="arrVariables">Eine Liste mit Variablen, die in dem Term vortkommen, beispielsweise "x", "y"</param>
+        /// <returns></returns>
+        public static Token[] TokenizeTerm(string strTerm, params string[] arrVariables)
+        {
+            return MathExpressionTokenizer.Tokenize(strTerm, true, arrVariables).ToArray();
+        }
+
+        /// <summary>
+        /// Parst einen mathematischen Term und gibt diesen aufgeteilt in einzelne Bauteile zurück.
+        /// </summary>
+        /// <param name="reader">Ein StringReader-Objekt, von dem der zu parsende Term ausgelesen wird.</param>
+        /// <param name="arrVariables">Eine Liste mit Variablen, die in dem Term vortkommen, beispielsweise "x", "y"</param>
+        /// <returns></returns>
+        public static Token[] TokenizeTerm(StringReader reader, params string[] arrVariables)
+        {
+            return MathExpressionTokenizer.Tokenize(reader, true, arrVariables).ToArray();
         }
     }
 }

@@ -4,7 +4,7 @@
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
   <ItemGroup>
-    <None Update="KnowledgeBase\TransformationRules\TransformationRules.xsd">
+    <None Update="KnowledgeBase\Algebra\TransformationRules\TransformationRules.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

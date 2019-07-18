@@ -9,6 +9,15 @@ Most functionality can be easily accessed over static methods.
 
 ## Implemented functions
 
+## Input Parsing
+* InputParser.ParseDoubleList(string[])
+	* Converts a list of strings into a list of doubles.
+
+* InputParser.TokenizeTerm()
+	* Splits a mathematical term into tokens.
+	* Detects the type of a token and provides additional information such as operator associativity and precedence
+	* Example: InputParser.TokenizeTerm("100 + 5 * sqrt(9)) -> Token[] {100,+,5,*,sqrt,(,9,)}
+
 ### Statistics
 * arithmetic mean
 * geometric mean

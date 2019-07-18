@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<knowledgebase>
+  <meta>
+    <name>Functions</name>
+  </meta>
+  <functions>
+    <function>
+      <name>sqrt</name>
+      <arguments>
+        <argument>
+          <hasdefaultvalue>false</hasdefaultvalue>
+        </argument>
+        <argument>
+          <hasdefaultvalue>true</hasdefaultvalue>
+          <defaultvalue>2</defaultvalue>
+        </argument>
+      </arguments>
+    </function>
+  </functions>
+</knowledgebase>
