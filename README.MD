@@ -1,4 +1,4 @@
-# Markellus Advancd Math Library
+# Markellus Advanced Math Library
 
 This library provides a set of advanced mathematical functions.
 
@@ -9,7 +9,7 @@ Most functionality can be easily accessed over static methods.
 
 ## Implemented functions
 
-## Input Parsing
+### Input Parsing
 * InputParser.ParseDoubleList(string[])
 	* Converts a list of strings into a list of doubles.
 
