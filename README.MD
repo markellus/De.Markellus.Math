@@ -15,6 +15,10 @@ Most functionality can be easily accessed over static methods.
 * modal mean
 * five point summary
 
+## System Requirements
+* .NET Standard 2.1 compatible system
+* 64 Bit CPU
+
 ## License
 
 Copyright (c) 2019 Marcel Bulla.
