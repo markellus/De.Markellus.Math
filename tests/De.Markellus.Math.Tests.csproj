@@ -5,6 +5,7 @@
     <!--<GenerateErrorForMissingTargetingPacks>false</GenerateErrorForMissingTargetingPacks>-->
     <IsPackable>false</IsPackable>
     <Platforms>AnyCPU;x64</Platforms>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,5 +39,9 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(SolutionDir)lib\spgt&quot; &quot;$(TargetDir)\spgt&quot; /e /y /i /r" />
+  </Target>
 
 </Project>

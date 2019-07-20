@@ -22,7 +22,7 @@ namespace De.Markellus.Maths.Internals.TermParsing
     /// <summary>
     /// Bildet einen Teil eines mathematischen Ausdrucks oder Terms ab.
     /// </summary>
-    public abstract class Token
+    public class Token
     {
         /// <summary>
         /// Der Typ des Tokens
@@ -68,7 +68,7 @@ namespace De.Markellus.Maths.Internals.TermParsing
         /// <returns></returns>
         public Token CreateCopy()
         {
-            return (Token)Activator.CreateInstance(GetType(), Type, Value, Associativity, Precedence);
+            return new Token(Type, Value, Associativity, Precedence);
         }
 
         /// <summary>

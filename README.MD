@@ -7,6 +7,7 @@ This library provides a set of advanced mathematical functions.
 
 Most functionality can be easily accessed over static methods.
 
+
 ## Implemented functions
 
 ### Input Parsing
@@ -18,15 +19,21 @@ Most functionality can be easily accessed over static methods.
 	* Detects the type of a token and provides additional information such as operator associativity and precedence
 	* Example: InputParser.TokenizeTerm("100 + 5 * sqrt(9)) -> Token[] {100,+,5,*,sqrt,(,9,)}
 
+* InputParse.TokenizeTermToRpn()
+	* Splits a mathematical term into tokens in reverse polish notation with ** Dijkstra's shunting yard algorithm **
+	* Detects the type of a token and provides additional information such as operator associativity and precedence
+
 ### Statistics
 * arithmetic mean
 * geometric mean
 * modal mean
 * five point summary
 
+
 ## System Requirements
 * .NET Standard 2.1 compatible system
 * 64 Bit CPU
+
 
 ## License
 
