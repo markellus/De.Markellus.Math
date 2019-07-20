@@ -20,7 +20,7 @@ Most functionality can be easily accessed over static methods.
 	* Example: InputParser.TokenizeTerm("100 + 5 * sqrt(9)) -> Token[] {100,+,5,*,sqrt,(,9,)}
 
 * InputParse.TokenizeTermToRpn()
-	* Splits a mathematical term into tokens in reverse polish notation with ** Dijkstra's shunting yard algorithm **
+	* Splits a mathematical term into tokens in reverse polish notation with **Dijkstra's shunting yard algorithm**
 	* Detects the type of a token and provides additional information such as operator associativity and precedence
 
 ### Statistics
