@@ -70,7 +70,7 @@ namespace De.Markellus.Maths.Internals.TermParsing
         private static IEnumerable<Token> ShuntingYard(IEnumerable<Token> infixToken)
         {
             var stack = new Stack<Token>();
-            bool bOk = true;
+            bool bOk;
 
             //SOLANGE Tokens verfügbar sind:
             //Token einlesen.
@@ -115,7 +115,6 @@ namespace De.Markellus.Maths.Internals.TermParsing
                                 bOk = false;
                             }
                         }
-
                         break;
                     //WENN Token IST-Operator
                     case TokenType.Operator:
@@ -175,12 +174,10 @@ namespace De.Markellus.Maths.Internals.TermParsing
                                 //Stack-Spitze ZU Ausgabe.
                                 yield return stack.Pop();
                         }
-
                         break;
                     case TokenType.Unknown:
                         throw new FormatException(
                             $"Unable to parse the input, starting here: \"{token.Value}\"\r\nHave you forgotten to define a variable or function?");
-                        break;
                     default:
                         Debugger.Break();
                         throw new Exception("Wrong token");

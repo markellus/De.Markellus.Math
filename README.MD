@@ -8,7 +8,7 @@ This library provides a set of advanced mathematical functions.
 Most functionality can be easily accessed over static methods.
 
 
-## Implemented functions
+## Implemented Functions
 
 ### Input Parsing
 * InputParser.ParseDoubleList(string[])
