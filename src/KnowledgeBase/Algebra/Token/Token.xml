@@ -71,6 +71,12 @@
       <precedence>Undefined</precedence>
     </token>
     <token>
+      <type>Constant</type>
+      <value>π</value>
+      <associativity>NoneAssociative</associativity>
+      <precedence>Undefined</precedence>
+    </token>
+    <token>
       <type>Operator</type>
       <value>+</value>
       <associativity>LeftAssociative</associativity>
@@ -132,7 +138,37 @@
     </token>
     <token>
       <type>Function</type>
+      <value>sin</value>
+      <associativity>NoneAssociative</associativity>
+      <precedence>Undefined</precedence>
+    </token>
+    <token>
+      <type>Function</type>
+      <value>cos</value>
+      <associativity>NoneAssociative</associativity>
+      <precedence>Undefined</precedence>
+    </token>
+    <token>
+      <type>Function</type>
       <value>tan</value>
+      <associativity>NoneAssociative</associativity>
+      <precedence>Undefined</precedence>
+    </token>
+    <token>
+      <type>Function</type>
+      <value>exp</value>
+      <associativity>NoneAssociative</associativity>
+      <precedence>Undefined</precedence>
+    </token>
+    <token>
+      <type>Function</type>
+      <value>ln</value>
+      <associativity>NoneAssociative</associativity>
+      <precedence>Undefined</precedence>
+    </token>
+    <token>
+      <type>Function</type>
+      <value>max</value>
       <associativity>NoneAssociative</associativity>
       <precedence>Undefined</precedence>
     </token>

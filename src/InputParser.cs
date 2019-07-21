@@ -5,6 +5,8 @@
  */
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -70,6 +72,28 @@ namespace De.Markellus.Maths
         public static Token[] TokenizeTerm(StringReader reader, params string[] arrVariables)
         {
             return MathExpressionTokenizer.Tokenize(reader, true, arrVariables).ToArray();
+        }
+
+        /// <summary>
+        /// Parst einen mathematischen Term und gibt diesen aufgeteilt in einzelne Bauteile und in umgedrehter polnischer Notation zurück.
+        /// </summary>
+        /// <param name="strTerm">Der mathematische Term als String, z.B. "5 + 5 - sqrt(9)"</param>
+        /// <param name="arrVariables">Eine Liste mit Variablen, die in dem Term vortkommen, beispielsweise "x", "y"</param>
+        /// <returns></returns>
+        public static Token[] TokenizeTermToRpn(string strTerm, params string[] arrVariables)
+        {
+            return ShuntingYardParser.InfixToRpn(strTerm, arrVariables).ToArray();
+        }
+
+        /// <summary>
+        /// Parst einen mathematischen Term und gibt diesen aufgeteilt in einzelne Bauteile und in umgedrehter polnischer Notation zurück.
+        /// </summary>
+        /// <param name="reader">Ein StringReader-Objekt, von dem der zu parsende Term ausgelesen wird.</param>
+        /// <param name="arrVariables">Eine Liste mit Variablen, die in dem Term vortkommen, beispielsweise "x", "y"</param>
+        /// <returns></returns>
+        public static Token[] TokenizeTermToRpn(StringReader reader, params string[] arrVariables)
+        {
+            return ShuntingYardParser.InfixToRpn(reader, arrVariables).ToArray();
         }
     }
 }

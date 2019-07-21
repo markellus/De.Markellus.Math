@@ -34,12 +34,11 @@ namespace De.Markellus.Math.Tests.Internals.TermParsing
             var arrResult = MathExpressionTokenizer.Tokenize("1 + 1 = 2").ToArray();
             Assert.IsTrue(arrResult.SequenceEqual(arrExpected));
 
-            }
+        }
 
         [TestMethod]
         public void TestTokenizer02()
         {
-
             var arrExpected = new[]
             {
                     GenerateTestToken(TokenType.Number, "1"),
@@ -52,7 +51,6 @@ namespace De.Markellus.Math.Tests.Internals.TermParsing
             };
             var arrResult = MathExpressionTokenizer.Tokenize("10 - 20").ToArray();
             Assert.IsTrue(arrResult.SequenceEqual(arrExpected));
-
         }
 
         [TestMethod]
