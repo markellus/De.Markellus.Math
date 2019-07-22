@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-namespace De.Markellus.Maths.Internals.Arithmetic
+namespace De.Markellus.Maths.Arithmetic
 {
     /// <summary>
     /// Diese Klasse bildet eine Zahl aus der Menge der reellen Zahlen ab.

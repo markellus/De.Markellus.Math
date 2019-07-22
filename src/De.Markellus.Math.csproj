@@ -66,6 +66,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Arithmetic\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy &quot;$(SolutionDir)lib\spgt&quot; &quot;$(TargetDir)\spgt&quot; /e /y /i /r" />
   </Target>
