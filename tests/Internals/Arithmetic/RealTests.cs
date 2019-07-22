@@ -1,6 +1,5 @@
 ﻿using System;
-using De.Markellus.Maths.Internals.Arithmetic;
-
+using De.Markellus.Maths.Arithmetic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace De.Markellus.Math.Tests.Internals.Arithmetic
