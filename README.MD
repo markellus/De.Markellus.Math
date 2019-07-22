@@ -38,8 +38,9 @@ Most functionality can be easily accessed over static methods.
 
 ## System Requirements
 * .NET Standard 2.1 compatible system
-* 64 Bit CPU
 
+### Additional requirements
+* The usage of the real datatype requires a 64 Bit CPU and Microsoft Windows (for now)
 
 ## License
 
