@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "De.Markellus.Math": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

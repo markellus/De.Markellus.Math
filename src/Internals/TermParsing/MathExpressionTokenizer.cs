@@ -50,8 +50,8 @@ namespace De.Markellus.Maths.Internals.TermParsing
 
             AddPostprocessFilter(new TokenGroupFilter());
             AddPostprocessFilter(new DecimalFilter());
-            AddPostprocessFilter(new AssumeMultiplyFilter());
             AddPostprocessFilter(new WhitespaceFilter());
+            AddPostprocessFilter(new AssumeMultiplyFilter());
             AddPostprocessFilter(new SignedNumberFilter());
             AddPostprocessFilter(new FunctionArgumentFilter());
         }

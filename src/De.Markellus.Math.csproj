@@ -30,17 +30,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Core\**" />
-    <EmbeddedResource Remove="Core\**" />
-    <None Remove="Core\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="KnowledgeBase\Algebra\Functions\Functions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="KnowledgeBase\Algebra\Nodes\Nodes.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="KnowledgeBase\Algebra\Token\Token.xml">
@@ -64,6 +61,10 @@
     <None Update="KnowledgeBase\Algebra\TransformationRules\TransformationRules.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Arithmetic\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
