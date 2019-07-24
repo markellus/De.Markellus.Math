@@ -43,16 +43,10 @@ namespace De.Markellus.Maths.Internals.TermParsing.Filters
             {
                 lastTokens.Enqueue(t);
 
-                if (lastTokens.Count >= 2)
+                if (lastTokens.Count == 2)
                 {
                     Token t1 = lastTokens.Dequeue();
                     Token t2 = lastTokens.Dequeue();
-                    Token t3 = null;
-
-                    if (lastTokens.Any())
-                    {
-                        t3 = lastTokens.Dequeue();
-                    }
 
                     if (t1.Type == TokenType.Parenthesis && t1.Value == ")" &&
                         t2.Type == TokenType.Parenthesis && t2.Value == "(")
@@ -61,39 +55,19 @@ namespace De.Markellus.Maths.Internals.TermParsing.Filters
                         yield return MathExpressionTokenizer.GetToken("*");
                         yield return t2;
                     }
-                    else
+                    else if ((t1.Type == TokenType.Number || t1.Type == TokenType.Variable || t1.Type == TokenType.Constant || (t1.Type == TokenType.Parenthesis && t1.Value == ")") ) &&
+                             (t2.Type == TokenType.Number || t2.Type == TokenType.Variable || t2.Type == TokenType.Constant || (t2.Type == TokenType.Parenthesis && t1.Value == "(") || t2.Type == TokenType.Function))
                     {
-                        lastTokens.Enqueue(t1);
-                        lastTokens.Enqueue(t2);
-                    }
-
-                    if (t3 != null)
-                    {
-                        lastTokens.Enqueue(t3);
-                    }
-                }
-
-                if (lastTokens.Count == 3)
-                {
-                    Token t1 = lastTokens.Dequeue();
-                    Token t2 = lastTokens.Dequeue();
-                    Token t3 = lastTokens.Dequeue();
-
-                    yield return t1;
-
-                    if ((t1.Type == TokenType.Number || t1.Type == TokenType.Variable ||
-                         (t1.Type == TokenType.Parenthesis && t1.Value == ")")) &&
-                        (t2.Type == TokenType.WhiteSpace) &&
-                        (t3.Type == TokenType.Function || t3.Type == TokenType.Number ||
-                         t3.Type == TokenType.Variable || (t3.Type == TokenType.Parenthesis && t3.Value == "(")))
-                    {
+                        yield return t1;
                         yield return MathExpressionTokenizer.GetToken("*");
+                        yield return t2;
                     }
                     else
                     {
+                        yield return t1;
                         lastTokens.Enqueue(t2);
                     }
-                    lastTokens.Enqueue(t3);
+                    
                 }
             }
 
