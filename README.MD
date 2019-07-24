@@ -1,3 +1,4 @@
+
 # Markellus Advanced Math Library
 
 This library provides a set of advanced mathematical functions.
@@ -8,7 +9,18 @@ This library provides a set of advanced mathematical functions.
 Most functionality can be easily accessed over static methods.
 
 
-## Implemented Functions
+## Implemented Functionality
+
+### The Math Environment [WIP]
+* Working with mathematical expressions
+```csharp
+MathEnvironment env = new MathEnvironment();
+env.DefineVariable("x", "1.23");
+env.DefineVariable("y", "9");
+Node term = env.AddTerm("x * sqrt(y) / 2");
+Console.WriteLine(term.Simplify());
+Console.WriteLine(term.Resolve());
+``` 
 
 ### Input Parsing
 * InputParser.ParseDoubleList(string[])
